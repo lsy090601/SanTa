@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>로그인</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <h1>로그인</h1>
+    <form id="loginForm">
+      <input
+        type="email"
+        id="email"
+        placeholder="이메일"
+        required
+      /><br /><br />
+      <input
+        type="password"
+        id="password"
+        placeholder="비밀번호"
+        required
+      /><br /><br />
+      <button type="submit">로그인</button>
+    </form>
+    <p><a href="signIn.html">회원가입</a></p>
+    <p id="message"></p>
+
+    <script>
+      const SUPABASE_URL = "https://avcferyfoxqrylhsstom.supabase.co";
+      const SUPABASE_KEY = "sb_publishable_EWBX3wzTpHFllAt38lTxGg_Yq3WDKs6";
+      const { createClient } = supabase;
+      const client = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const messageEl = document.getElementById("message");
+
+          try {
+            const { data, error } = await client
+              .from("users")
+              .select("id, email, password_hash")
+              .eq("email", email)
+              .eq("password_hash", password)
+              .single();
+
+            if (error || !data) {
+              messageEl.textContent = "이메일 또는 비밀번호가 잘못되었습니다.";
+              return;
+            }
+
+            messageEl.textContent = "로그인 성공!";
+            localStorage.setItem("userId", data.id);
+            localStorage.setItem("userEmail", data.email);
+            setTimeout(() => (window.location.href = "index.html"), 1000);
+          } catch (err) {
+            messageEl.textContent = "로그인 실패: " + err.message;
+          }
+        });
+    </script>
+  </body>
+</html>

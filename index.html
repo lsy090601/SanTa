@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>산림관광 통합데이터</title>
+  </head>
+  <body>
+    <script>
+      fetch("./data/산림관광_통합데이터.json")
+        .then((response) => response.json())
+        .then((data) => {
+          const mountains = data.mountain_info.slice(0, 20);
+          const content = mountains
+            .map(
+              (m) =>
+                `산정보ID: ${m.산정보ID}, 산이름: ${m.산정보개요내용}, 산높이: ${m.산높이}m`,
+            )
+            .join("<br>\n");
+          document.body.innerHTML += content;
+        });
+    </script>
+  </body>
+</html>

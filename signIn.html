@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>회원가입</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <h1>회원가입</h1>
+    <form id="signupForm">
+      <input
+        type="text"
+        id="nickname"
+        placeholder="닉네임"
+        required
+      /><br /><br />
+      <input
+        type="email"
+        id="email"
+        placeholder="이메일"
+        required
+      /><br /><br />
+      <input
+        type="password"
+        id="password"
+        placeholder="비밀번호"
+        required
+      /><br /><br />
+      <input
+        type="password"
+        id="passwordConfirm"
+        placeholder="비밀번호 확인"
+        required
+      /><br /><br />
+      <button type="submit">회원가입</button>
+    </form>
+    <p><a href="logIn.html">로그인</a></p>
+    <p id="message"></p>
+
+    <script>
+      // Supabase 설정 - 여기에 URL과 Key를 입력하세요
+      const SUPABASE_URL = "https://avcferyfoxqrylhsstom.supabase.co";
+      const SUPABASE_KEY = "sb_publishable_EWBX3wzTpHFllAt38lTxGg_Yq3WDKs6";
+      const { createClient } = supabase;
+      const client = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const nickname = document.getElementById("nickname").value;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const passwordConfirm =
+            document.getElementById("passwordConfirm").value;
+          const messageEl = document.getElementById("message");
+
+          if (password !== passwordConfirm) {
+            messageEl.textContent = "비밀번호가 일치하지 않습니다.";
+            return;
+          }
+
+          try {
+            const { data, error } = await client
+              .from("users")
+              .insert([{ nickname, email, password_hash: password }])
+              .select();
+
+            if (error) {
+              messageEl.textContent = "회원가입 실패: " + error.message;
+              return;
+            }
+
+            messageEl.textContent =
+              "회원가입 성공! 로그인 페이지로 이동합니다.";
+            setTimeout(() => (window.location.href = "logIn.html"), 1500);
+          } catch (err) {
+            messageEl.textContent = "회원가입 실패: " + err.message;
+          }
+        });
+    </script>
+  </body>
+</html>
