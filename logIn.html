@@ -2,28 +2,170 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>로그인</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+      @font-face {
+        font-family: "BMkkubulim";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2410-1@1.0/BMkkubulimTTF-Regular.woff2")
+          format("woff2");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        background: #1a5623;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 88px 82px;
+        font-family: "Pretendard", sans-serif;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 1563px;
+        min-height: 942px;
+        background: #fff;
+        border-radius: 83px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 175px;
+      }
+
+      .logo {
+        font-family: "BMkkubulim", "Pretendard", sans-serif;
+        font-size: 64px;
+        color: #1a5623;
+        margin-bottom: 60px;
+      }
+
+      form {
+        width: 430px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .field {
+        position: relative;
+        height: 59px;
+        margin-bottom: 24px;
+      }
+
+      .field input {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #1a5623;
+        border-radius: 31.5px;
+        padding: 13px 56px 13px 22px;
+        font-family: "Pretendard", sans-serif;
+        font-weight: 300;
+        font-size: 24px;
+        color: #1a5623;
+        outline: none;
+      }
+
+      .field input::placeholder {
+        color: #1a5623;
+      }
+
+      .field svg {
+        position: absolute;
+        right: 22px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 28px;
+        height: 28px;
+        color: #1a5623;
+        pointer-events: none;
+      }
+
+      button {
+        height: 59px;
+        margin-top: 57px;
+        border: none;
+        border-radius: 31.5px;
+        background: #1a5623;
+        color: #fff;
+        font-family: "Pretendard", sans-serif;
+        font-weight: 500;
+        font-size: 24px;
+        cursor: pointer;
+        filter: drop-shadow(0 0 3.1px #4192ff);
+      }
+
+      .create {
+        margin-top: 51px;
+        text-align: center;
+        font-weight: 500;
+        font-size: 16px;
+        color: #1a5623;
+      }
+
+      .create a {
+        color: #1a5623;
+      }
+
+      #message {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 16px;
+        color: #1a5623;
+        min-height: 20px;
+      }
+    </style>
   </head>
   <body>
-    <h1>로그인</h1>
-    <form id="loginForm">
-      <input
-        type="email"
-        id="email"
-        placeholder="이메일"
-        required
-      /><br /><br />
-      <input
-        type="password"
-        id="password"
-        placeholder="비밀번호"
-        required
-      /><br /><br />
-      <button type="submit">로그인</button>
-    </form>
-    <p><a href="signIn.html">회원가입</a></p>
-    <p id="message"></p>
+    <div class="card">
+      <p class="logo">SanTa</p>
+      <form id="loginForm">
+        <div class="field">
+          <input type="email" id="email" placeholder="이메일 입력" required />
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <rect x="2.5" y="5" width="19" height="14" rx="2" />
+            <path d="m3 7 9 6 9-6" />
+          </svg>
+        </div>
+        <div class="field">
+          <input
+            type="password"
+            id="password"
+            placeholder="비밀번호 입력"
+            required
+          />
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <rect x="4" y="10" width="16" height="11" rx="2" />
+            <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+          </svg>
+        </div>
+        <button type="submit">log in</button>
+        <p class="create"><a href="signIn.html">create an account</a></p>
+      </form>
+      <p id="message"></p>
+    </div>
 
     <script>
       const SUPABASE_URL = "https://avcferyfoxqrylhsstom.supabase.co";

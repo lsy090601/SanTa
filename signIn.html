@@ -2,43 +2,187 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>회원가입</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+      @font-face {
+        font-family: "BMkkubulim";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2410-1@1.0/BMkkubulimTTF-Regular.woff2")
+          format("woff2");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        background: #1a5623;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 88px 82px;
+        font-family: "Pretendard", sans-serif;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 1563px;
+        min-height: 942px;
+        background: #fff;
+        border-radius: 83px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 163px;
+      }
+
+      .logo {
+        font-family: "BMkkubulim", "Pretendard", sans-serif;
+        font-size: 64px;
+        color: #1a5623;
+        margin-bottom: 60px;
+      }
+
+      form {
+        width: 430px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .field {
+        position: relative;
+        height: 59px;
+        margin-bottom: 24px;
+      }
+
+      .field input {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #1a5623;
+        border-radius: 31.5px;
+        padding: 15px 56px 15px 22px;
+        font-family: "Pretendard", sans-serif;
+        font-weight: 300;
+        font-size: 24px;
+        color: #1a5623;
+        outline: none;
+      }
+
+      .field input::placeholder {
+        color: #1a5623;
+      }
+
+      .field svg {
+        position: absolute;
+        right: 22px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 28px;
+        height: 28px;
+        color: #1a5623;
+        pointer-events: none;
+      }
+
+      button {
+        height: 59px;
+        margin-top: 90px;
+        border: none;
+        border-radius: 31.5px;
+        background: #1a5623;
+        color: #fff;
+        font-family: "Pretendard", sans-serif;
+        font-size: 24px;
+        cursor: pointer;
+        filter: drop-shadow(0 0 3.1px #4192ff);
+      }
+
+      #message {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 16px;
+        color: #1a5623;
+        min-height: 20px;
+      }
+    </style>
   </head>
   <body>
-    <h1>회원가입</h1>
-    <form id="signupForm">
-      <input
-        type="text"
-        id="nickname"
-        placeholder="닉네임"
-        required
-      /><br /><br />
-      <input
-        type="email"
-        id="email"
-        placeholder="이메일"
-        required
-      /><br /><br />
-      <input
-        type="password"
-        id="password"
-        placeholder="비밀번호"
-        required
-      /><br /><br />
-      <input
-        type="password"
-        id="passwordConfirm"
-        placeholder="비밀번호 확인"
-        required
-      /><br /><br />
-      <button type="submit">회원가입</button>
-    </form>
-    <p><a href="logIn.html">로그인</a></p>
-    <p id="message"></p>
+    <div class="card">
+      <p class="logo">SanTa</p>
+      <form id="signupForm">
+        <div class="field">
+          <input type="email" id="email" placeholder="이메일 입력" required />
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <rect x="2.5" y="5" width="19" height="14" rx="2" />
+            <path d="m3 7 9 6 9-6" />
+          </svg>
+        </div>
+        <div class="field">
+          <input type="text" id="nickname" placeholder="닉네임 입력" required />
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <circle cx="12" cy="8" r="3.5" />
+            <path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" />
+          </svg>
+        </div>
+        <div class="field">
+          <input
+            type="password"
+            id="password"
+            placeholder="비밀번호 입력"
+            required
+          />
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <rect x="4" y="10" width="16" height="11" rx="2" />
+            <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+          </svg>
+        </div>
+        <div class="field">
+          <input
+            type="password"
+            id="passwordConfirm"
+            placeholder="비밀번호 확인"
+            required
+          />
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <rect x="4" y="10" width="16" height="11" rx="2" />
+            <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+          </svg>
+        </div>
+        <button type="submit">Done</button>
+      </form>
+      <p id="message"></p>
+    </div>
 
     <script>
-      // Supabase 설정 - 여기에 URL과 Key를 입력하세요
       const SUPABASE_URL = "https://avcferyfoxqrylhsstom.supabase.co";
       const SUPABASE_KEY = "sb_publishable_EWBX3wzTpHFllAt38lTxGg_Yq3WDKs6";
       const { createClient } = supabase;
@@ -68,12 +212,14 @@
               .select();
 
             if (error) {
-              messageEl.textContent = "회원가입 실패: " + error.message;
+              messageEl.textContent =
+                error.code === "23505"
+                  ? "이미 가입된 이메일입니다."
+                  : "회원가입 실패: " + error.message;
               return;
             }
 
-            messageEl.textContent =
-              "회원가입 성공! 로그인 페이지로 이동합니다.";
+            messageEl.textContent = "회원가입 성공! 로그인 페이지로 이동합니다.";
             setTimeout(() => (window.location.href = "logIn.html"), 1500);
           } catch (err) {
             messageEl.textContent = "회원가입 실패: " + err.message;
