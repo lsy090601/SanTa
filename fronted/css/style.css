@@ -1,0 +1,44 @@
+body {
+  padding: 0 40px;
+  margin-top: 30px;
+}
+
+input {
+  border: 1px solid #7b8c7e;
+  border-radius: 9px;
+  padding: 10px;
+  width: 38%;
+  box-sizing: border-box;
+}
+
+.search-section {
+  margin-bottom: 45px;
+  text-align: center;
+}
+
+input::placeholder {
+  color: #7b8c7e;
+  font-weight: 500;
+  opacity: 66%;
+}
+
+.mountain-card {
+  background-color: #ffffff;
+  display: flex;
+  gap: 16px;
+  border: 3px solid #e7e6dc;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.mountain-recommend-right {
+  padding: 8px;
+  flex-grow: 1;
+}
+
+.mountain-card img {
+  min-height: 0;
+  width: 50%;
+  height: 250px;
+  object-fit: cover;
+}
