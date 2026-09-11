@@ -1,0 +1,5 @@
+# 등산로 원본 데이터 (251MB, GitHub 100MB 제한 초과)
+# 가공 결과 JSON만 data/ 에 커밋할 것
+TB_FGDI_WG_MT_WAY_ALL.json
+
+node_modules/
