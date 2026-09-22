@@ -198,7 +198,7 @@
             messageEl.textContent = "로그인 성공!";
             localStorage.setItem("userId", data.id);
             localStorage.setItem("userEmail", data.email);
-            setTimeout(() => (window.location.href = "index.html"), 1000);
+            setTimeout(() => (window.location.href = "detail.html"), 1000);
           } catch (err) {
             messageEl.textContent = "로그인 실패: " + err.message;
           }

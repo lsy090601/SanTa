@@ -1,0 +1,310 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- 모바일에서도 화면 폭에 맞게 보이도록 하는 설정 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>코스 상세 - SanTa</title>
+    <!-- 본문 기본 글꼴(Pretendard)을 CDN에서 불러옴 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"
+    />
+    <style>
+      /* 로고("SanTa")에만 쓰는 손글씨풍 글꼴 */
+      @font-face {
+        font-family: "BMkkubulim";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2410-1@1.0/BMkkubulimTTF-Regular.woff2")
+          format("woff2");
+      }
+
+      /* 브라우저 기본 여백 초기화 + 크기 계산을 테두리 기준으로 통일 */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* 전체 배경은 진한 초록(산 느낌), 글자색도 같은 초록 계열 */
+      body {
+        min-height: 100vh;
+        background: #1a5623;
+        padding: 40px 20px;
+        font-family: "Pretendard", sans-serif;
+        color: #1a5623;
+      }
+
+      /* 초록 배경 위에 얹히는 흰색 카드 (본문 전체를 감쌈) */
+      .card {
+        max-width: 900px;
+        margin: 0 auto; /* 가운데 정렬 */
+        background: #fff;
+        border-radius: 40px;
+        padding: 48px;
+      }
+
+      /* 좌측 상단 로고 겸 홈(index.html)으로 가는 링크 */
+      .logo {
+        font-family: "BMkkubulim", sans-serif;
+        font-size: 32px;
+        color: #1a5623;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 32px;
+      }
+
+      /* 산 사진 */
+      .photo {
+        width: 100%;
+        height: 320px;
+        object-fit: cover; /* 비율은 유지하고 영역을 꽉 채우도록 잘라냄 */
+        border-radius: 24px;
+        margin-bottom: 32px;
+        background: #eee; /* 이미지가 뜨기 전에 보이는 회색 배경 */
+      }
+
+      /* 제목 영역 */
+      .mountain {
+        /* 코스명 위에 작게 들어가는 "산 이름 · 지역" */
+        font-size: 18px;
+        font-weight: 500;
+        opacity: 0.7;
+      }
+
+      /* 코스 이름 */
+      h1 {
+        font-size: 40px;
+        font-weight: 700;
+        margin: 4px 0 16px;
+      }
+
+      /* 난이도 뱃지 (알약 모양) */
+      .badge {
+        display: inline-block;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+      }
+      /* 난이도 값이 그대로 class 이름이 되어서 색이 정해짐 */
+      .badge.초심자 { background: #2e7d32; } /* 초록 */
+      .badge.중급자 { background: #c77800; } /* 주황 */
+      .badge.고수 { background: #b3261e; }   /* 빨강 */
+
+      /* 정보 그리드 */
+      .info {
+        display: grid;
+        /* 칸 너비를 최소 140px로 두고, 화면 폭에 맞춰 열 개수가 자동으로 늘고 줆 */
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 16px;
+        margin: 32px 0;
+      }
+
+      /* 거리 / 소요시간 같은 정보 한 칸 */
+      .info div {
+        border: 1px solid #1a5623;
+        border-radius: 16px;
+        padding: 16px;
+      }
+
+      .info dt { /* 항목 이름 (예: 거리) */
+        font-size: 14px;
+        opacity: 0.7;
+        margin-bottom: 6px;
+      }
+
+      .info dd { /* 항목 값 (예: 3.2km) */
+        font-size: 24px;
+        font-weight: 600;
+      }
+
+      /* 위험구간 경고 */
+      .risk {
+        background: #fff4e5;
+        border: 1px solid #c77800;
+        border-radius: 16px;
+        padding: 16px 20px;
+        color: #8a5300;
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 32px;
+      }
+
+      /* 정보 영역과 후기 영역을 나누는 옅은 구분선 */
+      hr {
+        border: none;
+        border-top: 1px solid #d5e0d7;
+        margin: 40px 0;
+      }
+
+      /* 후기 영역 */
+      h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      /* 로그인 유도 박스 (점선 테두리) */
+      .login-box {
+        border: 1px dashed #1a5623;
+        border-radius: 20px;
+        padding: 32px;
+        text-align: center;
+      }
+
+      .login-box p {
+        font-size: 16px;
+        margin-bottom: 16px;
+        opacity: 0.8;
+      }
+
+      /* 구글 로그인 버튼 (아직 동작은 연결되지 않은 상태) */
+      .google-btn {
+        border: 1px solid #1a5623;
+        background: #fff;
+        border-radius: 24px;
+        padding: 12px 28px;
+        font-family: inherit;
+        font-size: 16px;
+        color: #1a5623;
+        cursor: pointer;
+      }
+
+      /* 내용이 없을 때 띄우는 안내 문구 (후기 없음, 에러 메시지 등) */
+      .empty {
+        opacity: 0.6;
+        font-size: 16px;
+        padding: 20px 0;
+      }
+
+      /* 목록이 없을 때(개발용) */
+      .sample a {
+        display: block;
+        padding: 10px 0;
+        color: #1a5623;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 화면 내용을 자바스크립트가 이 div 안에 그려 넣음 (처음엔 로딩 문구만 보임) -->
+    <div class="card" id="app">불러오는 중...</div>
+
+    <script>
+      // 주소창의 쿼리스트링에서 ?id=... 값을 꺼냄
+      // 예) detail.html?id=C001  ->  courseId === "C001"
+      const params = new URLSearchParams(location.search);
+      const courseId = params.get("id");
+
+      // 코스 데이터(JSON) 파일을 불러와서 화면을 그림
+      fetch("./data/courses.json")
+        .then((res) => res.json()) // 응답을 JS 배열로 변환
+        .then((courses) => {
+          // id 없이 그냥 열었으면 개발용 코스 목록을 보여줌
+          if (!courseId) return renderSample(courses);
+
+          // 전체 코스 중 id가 일치하는 코스 하나를 찾음
+          const c = courses.find((x) => x.course_id === courseId);
+          if (!c) return renderError("해당 코스를 찾을 수 없어요."); // 없는 id인 경우
+
+          render(c); // 찾았으면 상세 화면 그리기
+        })
+        // 파일이 없거나 네트워크 오류일 때
+        .catch(() => renderError("데이터를 불러오지 못했어요."));
+
+      // 코스 하나(c)를 받아서 상세 페이지 HTML을 만들어 넣는 함수
+      function render(c) {
+        const total = c.up_min + c.down_min; // 올라가는 시간 + 내려오는 시간 = 총 소요시간
+
+        document.title = c.course_name + " - SanTa"; // 브라우저 탭 제목도 코스명으로 변경
+
+        // 템플릿 리터럴(백틱)로 HTML을 한 번에 조립해서 #app 안에 삽입
+        document.getElementById("app").innerHTML = `
+          <a href="index.html" class="logo">SanTa</a>
+
+          <!-- 사진 주소가 있을 때만 img를 넣고, 로딩에 실패하면 이미지 영역을 숨김 -->
+          ${
+            c.mountain_image_url
+              ? `<img class="photo" src="${c.mountain_image_url}" alt="${c.mountain_name}"
+                   onerror="this.style.display='none'">`
+              : ""
+          }
+
+          <!-- 산 이름 (지역 정보가 있으면 " · 지역"을 덧붙임) -->
+          <p class="mountain">${c.mountain_name}${
+            c.region ? " · " + c.region : ""
+          }</p>
+          <h1>${c.course_name}</h1>
+          <!-- 난이도 값이 그대로 class가 되어 뱃지 색상이 결정됨 -->
+          <span class="badge ${c.difficulty}">${c.difficulty}</span>
+
+          <!-- 코스 기본 정보 카드들 -->
+          <dl class="info">
+            <div><dt>거리</dt><dd>${c.distance_km}km</dd></div>
+            <div><dt>총 소요시간</dt><dd>${fmt(total)}</dd></div>
+            <div><dt>올라갈 때</dt><dd>${fmt(c.up_min)}</dd></div>
+            <div><dt>내려올 때</dt><dd>${fmt(c.down_min)}</dd></div>
+            <!-- 아래 두 항목은 데이터에 값이 있을 때만 표시 -->
+            ${
+              c.mountain_height_m
+                ? `<div><dt>산 높이</dt><dd>${c.mountain_height_m}m</dd></div>`
+                : ""
+            }
+            ${
+              c.terrain_type
+                ? `<div><dt>지형</dt><dd>${c.terrain_type}</dd></div>`
+                : ""
+            }
+          </dl>
+
+          <!-- 위험구간 안내가 있는 코스만 경고 문구 표시 -->
+          ${c.risk_note ? `<p class="risk">⚠️ ${c.risk_note}</p>` : ""}
+
+          <hr>
+
+          <!-- 후기 영역: 아직 기능은 없고 화면만 잡아둔 상태 -->
+          <h2>후기</h2>
+          <div class="login-box">
+            <p>로그인하면 후기를 남길 수 있어요.</p>
+            <button class="google-btn">구글로 로그인</button>
+          </div>
+          <p class="empty">아직 후기가 없어요.</p>
+        `;
+      }
+
+      // 분 -> "1시간 20분"
+      function fmt(min) {
+        if (min < 60) return min + "분";   // 60분 미만이면 분만 표시
+        const h = Math.floor(min / 60);    // 시간
+        const m = min % 60;                // 남은 분
+        return m ? `${h}시간 ${m}분` : `${h}시간`; // 딱 떨어지면 "2시간"
+      }
+
+      // 코스를 못 찾았거나 데이터 로딩에 실패했을 때 보여주는 화면
+      function renderError(msg) {
+        document.getElementById("app").innerHTML = `
+          <a href="index.html" class="logo">SanTa</a>
+          <p class="empty">${msg}</p>`;
+      }
+
+      // ?id= 없이 열었을 때 (개발용 임시 목록)
+      function renderSample(courses) {
+        // 난이도별로 사진이 있는 코스를 3개씩 골라 최대 9개 링크를 만듦
+        const picks = ["초심자", "중급자", "고수"].flatMap((d) =>
+          courses.filter((c) => c.difficulty === d && c.mountain_image_url).slice(0, 3)
+        );
+        document.getElementById("app").innerHTML = `
+          <a href="index.html" class="logo">SanTa</a>
+          <h2>코스를 선택하세요 (개발용)</h2>
+          <div class="sample">
+            ${picks
+              // 각 코스를 detail.html?id=... 링크 한 줄로 변환
+              .map(
+                (c) =>
+                  `<a href="detail.html?id=${c.course_id}">${c.mountain_name} / ${c.course_name} · ${c.difficulty} · ${c.distance_km}km</a>`
+              )
+              .join("")}
+          </div>`;
+      }
+    </script>
+  </body>
+</html>
