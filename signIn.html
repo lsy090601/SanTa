@@ -196,7 +196,7 @@
   </head>
   <body>
     <div class="card">
-      <img class="logo" src="assets/logo.svg" alt="SanTa" />
+      <h1 style="color:#2f5d3a">SanTa</h1>
       <p class="subtitle">계정을 만들고 후기를 남겨보세요</p>
       <form id="signupForm">
         <div class="field">
@@ -243,11 +243,10 @@
       <p id="message"></p>
     </div>
 
+    <script src="config.js"></script>
+    <script src="js/auth.js"></script>
     <script>
-      const SUPABASE_URL = "https://praypaewixxxudsmlxpj.supabase.co";
-      const SUPABASE_KEY = "sb_publishable_AkbNzojx-Hs2Z0oM_pbrug_VpkRR-dv";
-      const { createClient } = supabase;
-      const client = createClient(SUPABASE_URL, SUPABASE_KEY);
+      const client = window.santaClient;
 
       document
         .getElementById("signupForm")
@@ -268,10 +267,19 @@
           }
 
           try {
-            // users 테이블은 SELECT를 막아뒀으므로(비밀번호 노출 방지) .select() 없이 insert만 수행
-            const { error } = await client
-              .from("users")
-              .insert([{ nickname, email, password_hash: password }]);
+            if (!client) {
+              throw new Error("config.js에 Supabase URL과 공개 키를 설정해 주세요.");
+            }
+            // Supabase Auth가 비밀번호와 인증 세션을 관리합니다.
+            // 닉네임은 사용자 추가 정보에 넣고 비밀번호 처리는 Auth에 맡깁니다.
+            const result = await client.auth.signUp({
+              email: email,
+              password: password,
+              options: {
+                data: { nickname: nickname }
+              }
+            });
+            const error = result.error;
 
             if (error) {
               messageEl.className = "error";
@@ -283,7 +291,7 @@
             }
 
             messageEl.className = "success";
-            messageEl.textContent = "회원가입 성공! 로그인 페이지로 이동합니다.";
+            messageEl.textContent = "가입 요청 완료! 이메일 인증이 설정된 경우 메일을 확인한 뒤 로그인해 주세요.";
             setTimeout(() => (window.location.href = "logIn.html"), 1500);
           } catch (err) {
             messageEl.className = "error";
