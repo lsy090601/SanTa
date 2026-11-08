@@ -1,10 +1,31 @@
+// 데이터의 난이도 이름 → 화면에서 쓰는 이름
+const levelName = {
+  초심자: "쉬움",
+  중급자: "중간",
+  고수: "어려움",
+};
+
 async function loadCourses() {
   //데이터 가져오기
-  const response = await fetch("data/hikingCourses.json");
+  const response = await fetch("../data/courses.json");
   const data = await response.json();
 
+  // 새 데이터의 영어 이름 → 기존 코드의 한글 이름으로 바꾸기
+  const converted = data.map((course) => ({
+    id: course.course_id,
+    산이름: course.mountain_name,
+    산높이: course.mountain_height_m,
+    코스이름: course.course_name,
+    코스총거리: course.distance_km,
+    난이도: levelName[course.difficulty] || course.difficulty,
+    상행소요시간: course.up_min,
+    하행소요시간: course.down_min,
+    지역: course.region,
+    통제: course.closed,
+  }));
+
   //데이터 정제
-  const filteredData = data.filter((course) => {
+  const filteredData = converted.filter((course) => {
     const time = course.상행소요시간 + course.하행소요시간;
     return Number(course.산높이) && course.코스총거리 >= 1 && time > 0;
   });

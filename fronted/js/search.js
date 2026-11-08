@@ -111,6 +111,6 @@ function render(list) {
 
 // 검색 기능 초기화
 filterForm.addEventListener("reset", () => {
-  slideText.textContent = "최대 5km";
+  slideText.textContent = "10km 이상";
   render(allCourses);
 });
