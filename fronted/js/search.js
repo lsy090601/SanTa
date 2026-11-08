@@ -86,7 +86,7 @@ filterForm.addEventListener("submit", (event) => {
 
   render(result);
 
-  console.log("로그인 버튼 눌림");
+  console.log({ search, levels, maxLength, minTime, maxTime }, result.length);
 });
 
 // 카드 그리기
@@ -102,15 +102,15 @@ function render(list) {
   resultCount.textContent = list.length;
 
   const emptyResult = document.querySelector(".result__empty");
-  if (emptyResult.length === 0) {
-    hidden = false;
+  if (list.length === 0) {
+    emptyResult.hidden = false;
   } else {
-    hidden = true; //숨기기
+    emptyResult.hidden = true; //숨기기
   }
 }
 
 // 검색 기능 초기화
 filterForm.addEventListener("reset", () => {
-  slideText.textContent = "10km 이상";
+  slideText.textContent = "최대 5km";
   render(allCourses);
 });

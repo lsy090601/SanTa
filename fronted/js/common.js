@@ -17,7 +17,7 @@ const distance = (course) => {
   return `${course.코스총거리.toFixed(1)}km`;
 };
 
-// formatMinutes함수
+// 분 → "1시간 20분" / "40분"
 const formatMinutes = (minutes) => {
   const hour = Math.floor(minutes / 60);
   const min = minutes % 60;
@@ -29,7 +29,7 @@ const formatMinutes = (minutes) => {
   return `${min}분`;
 };
 
-// 시간 바꾸기
+// 총 시간
 const totalTime = (course) => {
   return formatMinutes(course.상행소요시간 + course.하행소요시간);
 };
@@ -62,9 +62,7 @@ const createCard = (course, isRow) => {
                     산 높이 ${course.산높이}m · 상행 ${formatMinutes(course.상행소요시간)} · 하행 ${formatMinutes(course.하행소요시간)}
                   </p>
                 </div>
-                <a href="#" class="btn btn--outline course-card__link"
-                  >자세히 보기</a
-                >
+                <a href="#" class="btn btn--outline course-card__link">자세히 보기</a>
               </article>
             </li>
   `;
