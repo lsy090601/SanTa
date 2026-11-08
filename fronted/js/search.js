@@ -1,11 +1,26 @@
 let allCourses = [];
 
+// 검색어 가져오기
+const params = new URLSearchParams(location.search);
+const search = params.get("search") || ""; // "red"
+
+document.querySelector(".search-box__input").value = search;
+
 async function renderSearch() {
   //데이터 가져오기
   const courses = await loadCourses();
   allCourses = courses;
 
-  render(allCourses);
+  //검색어가 있는 경우
+  if (search) {
+    const result = allCourses.filter(
+      (course) =>
+        course.산이름.includes(search) || course.코스이름.includes(search),
+    );
+    render(result);
+  } else {
+    render(allCourses);
+  }
 }
 renderSearch();
 
@@ -36,13 +51,39 @@ filterForm.addEventListener("submit", (event) => {
   if (document.querySelector("#level-hard").checked) levels.push("어려움");
 
   // 길이 필터 적용
-  maxLength = Number(slider.value);
+  const maxLength = Number(slider.value);
 
-  const result = allCourses.filter(
-    (course) =>
-      levels.includes(course.난이도) &&
-      (maxLength === 10 || course.코스총거리.toFixed(1) <= maxLength),
-  );
+  // 시간 필터 적용
+  let minTime = 0;
+  let maxTime = Infinity;
+  if (document.querySelector("#time-1").checked) {
+    minTime = 0;
+    maxTime = 60;
+  }
+  if (document.querySelector("#time-2").checked) {
+    ((minTime = 60), (maxTime = 120));
+  }
+  if (document.querySelector("#time-3").checked) {
+    minTime = 120;
+    maxTime = 180;
+  }
+  if (document.querySelector("#time-4").checked) {
+    minTime = 180;
+    maxTime = Infinity;
+  }
+
+  const result = allCourses.filter((course) => {
+    const totalTime = course.상행소요시간 + course.하행소요시간;
+
+    return (
+      (levels.length === 0 || levels.includes(course.난이도)) &&
+      (maxLength === 10 || course.코스총거리 <= maxLength) &&
+      totalTime < maxTime &&
+      totalTime >= minTime &&
+      (course.산이름.includes(search) || course.코스이름.includes(search))
+    );
+  });
+
   render(result);
 
   console.log("로그인 버튼 눌림");
@@ -59,4 +100,17 @@ function render(list) {
 
   const resultCount = document.querySelector(".result__count");
   resultCount.textContent = list.length;
+
+  const emptyResult = document.querySelector(".result__empty");
+  if (emptyResult.length === 0) {
+    hidden = false;
+  } else {
+    hidden = true; //숨기기
+  }
 }
+
+// 검색 기능 초기화
+filterForm.addEventListener("reset", () => {
+  slideText.textContent = "10km 이상";
+  render(allCourses);
+});
