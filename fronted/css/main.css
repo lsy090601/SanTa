@@ -53,6 +53,31 @@
   margin-top: 320px;
 }
 
+.hero__search {
+  position: relative;
+  max-width: 560px;
+  margin-inline: auto;
+  margin-top: 320px;
+}
+
+/*---------- 자동완성 항목 링크 ----------*/
+.autocomplete__item {
+  display: block;
+  padding: 0;
+}
+
+.autocomplete__link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+}
+
+.autocomplete__item:hover,
+.autocomplete__link:focus-visible {
+  background-color: var(--color-bg-subtle);
+}
+
 /*---------- hero 슬라이드 컨트롤 ----------*/
 
 .hero__controls {

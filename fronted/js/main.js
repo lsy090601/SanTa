@@ -1,6 +1,9 @@
+let allCourses = [];
+
 async function getCourses() {
   // 데이터 받기
   const courses = await loadCourses();
+  allCourses = courses;
 
   // 난이도 필터
   const filteredLevel = courses.filter((course) => {
@@ -28,6 +31,48 @@ async function getCourses() {
 }
 
 getCourses();
+
+const searchInput = document.querySelector(".search-box__input");
+const autoList = document.querySelector(".autocomplete");
+
+searchInput.addEventListener("input", () => {
+  const input = searchInput.value.trim();
+
+  if (!input) {
+    autoList.hidden = true;
+    return;
+  }
+
+  const filteredCourses = allCourses
+    .filter((course) => {
+      return course.산이름.includes(input) || course.코스이름.includes(input);
+    })
+    .slice(0, 4);
+
+  if (filteredCourses.length === 0) {
+    autoList.hidden = true;
+    return;
+  }
+
+  const tags = filteredCourses.map(
+    (course) => `
+  <li class="autocomplete__item">
+    <a href="${detailUrl(course)}" class="autocomplete__link">
+      <span class="autocomplete__icon" aria-hidden="true">
+        <img src="images/icon-mountain.svg" alt="" />
+      </span>
+      <div>
+        <strong class="autocomplete__name">${course.산이름} ${course.코스이름}</strong>
+        <span class="autocomplete__meta">코스길이 ${distance(course)} ${course.지역}</span>
+      </div>
+    </a>
+  </li>
+`,
+  );
+  const tag = tags.join("");
+  autoList.innerHTML = tag;
+  autoList.hidden = false;
+});
 
 //card 만들기
 /*
