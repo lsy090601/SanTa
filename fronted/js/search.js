@@ -4,7 +4,8 @@ let allCourses = [];
 const params = new URLSearchParams(location.search);
 const search = params.get("search") || ""; // "red"
 
-document.querySelector(".search-box__input").value = search;
+const searchInput = document.querySelector(".search-box__input");
+searchInput.value = search;
 
 async function renderSearch() {
   //데이터 가져오기
@@ -43,6 +44,7 @@ const filterForm = document.querySelector("#filter-form");
 
 filterForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  const keyWord = searchInput.value.trim();
 
   // 난이도 필터 적용
   const levels = [];
@@ -80,13 +82,13 @@ filterForm.addEventListener("submit", (event) => {
       (maxLength === 10 || course.코스총거리 <= maxLength) &&
       totalTime < maxTime &&
       totalTime >= minTime &&
-      (course.산이름.includes(search) || course.코스이름.includes(search))
+      (course.산이름.includes(keyWord) || course.코스이름.includes(keyWord))
     );
   });
 
   render(result);
 
-  console.log({ search, levels, maxLength, minTime, maxTime }, result.length);
+  console.log({ keyWord, levels, maxLength, minTime, maxTime }, result.length);
 });
 
 // 카드 그리기
