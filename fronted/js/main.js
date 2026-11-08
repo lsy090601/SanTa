@@ -74,6 +74,53 @@ searchInput.addEventListener("input", () => {
   autoList.hidden = false;
 });
 
+//----------------------hero
+const slides = document.querySelectorAll(".hero__slide");
+const dots = document.querySelectorAll(".hero__dot");
+const pauseBtn = document.querySelector(".hero__pause");
+let curr = 0;
+
+function showSlide(index) {
+  slides.forEach((slide) => slide.classList.remove("hero__slide--active"));
+  dots.forEach((dot) => dot.classList.remove("hero__dot--active"));
+  slides[index].classList.add("hero__slide--active");
+  dots[index].classList.add("hero__dot--active");
+  curr = index;
+}
+
+// 원하는 거 보여주기
+dots.forEach((dot, index) => {
+  dot.addEventListener("click", () => {
+    showSlide(index);
+  });
+});
+
+function startAuto() {
+  timer = setInterval(() => {
+    const nextSlide = (curr + 1) % slides.length;
+    showSlide(nextSlide);
+  }, 5000);
+}
+
+startAuto();
+
+let isPlaying = true;
+
+pauseBtn.addEventListener("click", () => {
+  if (isPlaying) {
+    // 재생 중이면 멈추기
+    clearInterval(timer);
+    isPlaying = false;
+  } else {
+    // 멈춰 있으면 다시 재생하기
+    timer = setInterval(() => {
+      showSlide((curr + 1) % slides.length);
+    }, 3000);
+
+    isPlaying = true;
+  }
+});
+
 //card 만들기
 /*
 1. 난이도 쉬움만 건지기

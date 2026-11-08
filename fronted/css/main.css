@@ -17,6 +17,7 @@
   height: 100%;
   object-fit: cover;
   opacity: 0;
+  transition: opacity 0.8s;
 }
 
 .hero__slide--active {

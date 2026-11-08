@@ -301,10 +301,6 @@ a[aria-current="page"] {
   cursor: pointer;
 }
 
-.autocomplete__item--active {
-  background-color: var(--color-bg-subtle);
-}
-
 .autocomplete__icon {
   border-radius: var(--radius-full);
   width: 44px;
@@ -407,5 +403,9 @@ a[aria-current="page"] {
   .course-card__link {
     justify-self: start;
     margin: 0 20px 20px;
+  }
+
+  .course-card__title a:hover {
+    text-decoration: underline;
   }
 }
