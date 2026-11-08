@@ -11,7 +11,12 @@ const fileTypes = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
-  '.svg': 'image/svg+xml'
+  '.svg': 'image/svg+xml',
+  '.css': 'text/css; charset=utf-8',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.png': 'image/png',
+  '.webp': 'image/webp'
 };
 
 const server = http.createServer(function (request, response) {
@@ -25,8 +30,11 @@ const server = http.createServer(function (request, response) {
     return;
   }
 
+  // 주소창에 서버 주소만 입력하면 메인 페이지를 보여 줍니다.
   if (requestedPath === '/') {
-    requestedPath = '/detail.html';
+    response.writeHead(302, { Location: '/fronted/index.html' });
+    response.end();
+    return;
   }
 
   const filePath = path.resolve(projectFolder, '.' + requestedPath);

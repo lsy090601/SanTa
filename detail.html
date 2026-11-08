@@ -630,14 +630,14 @@
   <body>
     <!-- 상단 내비게이션 -->
     <header class="nav">
-      <a href="index.html" class="logo"><span style="font-size:24px;font-weight:700;color:var(--green)">SanTa</span></a>
-      <form class="search" onsubmit="return false">
+      <a href="fronted/index.html" class="logo"><span style="font-size:24px;font-weight:700;color:var(--green)">SanTa</span></a>
+      <form class="search" action="fronted/search.html" role="search">
         <img src="assets/search.svg" alt="" />
-        <input aria-label="산 또는 코스 검색" type="text" placeholder="찾고 싶은 산이나 코스를 입력해 주세요." />
+        <input aria-label="산 또는 코스 검색" type="search" name="search" placeholder="찾고 싶은 산이나 코스를 입력해 주세요." />
       </form>
       <nav class="menu">
-        <a href="index.html" class="hide-sm">코스 추천</a>
-        <a href="index.html" class="on hide-sm">코스 검색</a>
+        <a href="fronted/index.html" class="hide-sm">코스 추천</a>
+        <a href="fronted/search.html" class="on hide-sm">코스 검색</a>
         <span class="record hide-sm">
           내 기록
           <img src="assets/down.svg" alt="" />
@@ -739,7 +739,7 @@
           // 로그인 상태 확인이 끝난 뒤 화면을 만듭니다.
           await window.santaAuthReady;
           if (!courseId) {
-            renderSample(allCourses);
+            location.replace('fronted/search.html');
             return;
           }
 
@@ -793,7 +793,7 @@
             <aside class="panel">
               <div class="panel-head">
                 <div class="back-row">
-                  <button class="icon-btn" aria-label="뒤로 가기" onclick="history.length > 1 ? history.back() : (location.href = 'index.html')">
+                  <button class="icon-btn" aria-label="뒤로 가기" onclick="history.length > 1 ? history.back() : (location.href = 'fronted/search.html')">
                     <img src="assets/left.svg" alt="" />
                   </button>
                   <button class="fold-btn" aria-label="접기" aria-expanded="true" aria-controls="panelBody" onclick="togglePanel()">
@@ -1073,47 +1073,6 @@
       function renderError(msg) {
         document.getElementById("app").innerHTML = `<p class="state empty">${msg}</p>`;
       }
-
-      // 주소에 ?id=가 없으면 선택할 수 있는 목록을 보여 줍니다.
-      function renderSample(courses) {
-        let links = '';
-        let count = 0;
-
-        for (const course of courses) {
-          const searchText = course.mountain_name + ' ' + course.course_name + ' ' + (course.address || '');
-          if (window.searchTerm && !searchText.includes(window.searchTerm)) {
-            continue; // 검색어가 없는 항목은 건너뜁니다.
-          }
-
-          const url = 'detail.html?id=' + encodeURIComponent(course.course_id);
-          links += '<a href="' + url + '">';
-          links += esc(course.mountain_name) + ' / ' + esc(course.course_name);
-          links += ' · ' + esc(course.region || '지역 미상') + '</a>';
-          count++;
-          if (count === 60) {
-            break; // 화면에 한꺼번에 너무 많은 항목을 그리지 않습니다.
-          }
-        }
-
-        if (count === 0) {
-          links = '검색 결과가 없습니다.';
-        }
-
-        document.getElementById('app').innerHTML = `
-          <div class="state">
-            <h2>산과 코스를 선택하세요</h2>
-            <p>이름이나 지역으로 검색할 수 있어요. 최대 60개를 표시합니다.</p>
-            <div class="sample">${links}</div>
-          </div>
-        `;
-      }
-
-      // 검색창에서 Enter를 누르면 현재 데이터에서 이름이나 주소를 찾습니다.
-      document.querySelector('.search').addEventListener('submit', function (event) {
-        event.preventDefault();
-        window.searchTerm = document.querySelector('.search input').value.trim();
-        renderSample(allCourses);
-      });
     </script>
   </body>
 </html>
