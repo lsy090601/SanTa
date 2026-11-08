@@ -26,183 +26,252 @@
 
       body {
         min-height: 100vh;
-        background: #1a5623;
+        background: linear-gradient(135deg, #f5f7f6 0%, #e8f1ed 100%);
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 88px 82px;
+        padding: 20px;
         font-family: "Pretendard", sans-serif;
       }
 
       .card {
         width: 100%;
-        max-width: 1563px;
-        min-height: 942px;
-        background: #fff;
-        border-radius: 83px;
+        max-width: 480px;
+        background: #ffffff;
+        border-radius: 24px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding-top: 175px;
+        padding: 60px 40px;
+        box-shadow: 0 20px 60px rgba(45, 122, 74, 0.08);
+        transition: all 0.3s ease;
+      }
+
+      .card:hover {
+        box-shadow: 0 30px 80px rgba(45, 122, 74, 0.12);
       }
 
       .logo {
-        font-family: "BMkkubulim", "Pretendard", sans-serif;
-        font-size: 64px;
-        color: #1a5623;
-        margin-bottom: 60px;
+        width: 160px;
+        height: auto;
+        margin-bottom: 16px;
+      }
+
+      .subtitle {
+        font-size: 14px;
+        color: #8b9b9d;
+        margin-bottom: 40px;
+        font-weight: 400;
       }
 
       form {
-        width: 430px;
+        width: 100%;
         display: flex;
         flex-direction: column;
       }
 
       .field {
         position: relative;
-        height: 59px;
-        margin-bottom: 24px;
+        margin-bottom: 16px;
+      }
+
+      .field label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: #4a5568;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
       .field input {
         width: 100%;
-        height: 100%;
-        border: 1px solid #1a5623;
-        border-radius: 31.5px;
-        padding: 13px 56px 13px 22px;
+        height: 48px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 12px 16px 12px 16px;
         font-family: "Pretendard", sans-serif;
-        font-weight: 300;
-        font-size: 24px;
-        color: #1a5623;
+        font-weight: 400;
+        font-size: 16px;
+        color: #2c3e50;
         outline: none;
+        background: #f9fafb;
+        transition: all 0.3s ease;
+      }
+
+      .field input:focus {
+        border-color: #2d7a4a;
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(45, 122, 74, 0.1);
       }
 
       .field input::placeholder {
-        color: #1a5623;
-      }
-
-      .field svg {
-        position: absolute;
-        right: 22px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 28px;
-        height: 28px;
-        color: #1a5623;
-        pointer-events: none;
+        color: #cbd5e0;
       }
 
       button {
-        height: 59px;
-        margin-top: 57px;
+        height: 48px;
+        margin-top: 28px;
         border: none;
-        border-radius: 31.5px;
-        background: #1a5623;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #2d7a4a 0%, #1e5631 100%);
         color: #fff;
         font-family: "Pretendard", sans-serif;
-        font-weight: 500;
-        font-size: 24px;
+        font-weight: 600;
+        font-size: 16px;
         cursor: pointer;
-        filter: drop-shadow(0 0 3.1px #4192ff);
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 8px 24px rgba(45, 122, 74, 0.2);
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 32px rgba(45, 122, 74, 0.3);
+      }
+
+      button:active {
+        transform: translateY(0);
       }
 
       .create {
-        margin-top: 51px;
+        margin-top: 24px;
         text-align: center;
-        font-weight: 500;
-        font-size: 16px;
-        color: #1a5623;
+        font-size: 14px;
+        color: #718096;
       }
 
       .create a {
-        color: #1a5623;
+        color: #2d7a4a;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+
+      .create a:hover {
+        color: #1e5631;
+        text-decoration: underline;
       }
 
       #message {
-        margin-top: 20px;
+        margin-top: 16px;
         text-align: center;
-        font-size: 16px;
-        color: #1a5623;
+        font-size: 14px;
         min-height: 20px;
+        padding: 12px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      #message.success {
+        color: #22863a;
+        background: #f0f8f0;
+      }
+
+      #message.error {
+        color: #cb2431;
+        background: #fef4f4;
+      }
+
+      @media (max-width: 480px) {
+        .card {
+          padding: 40px 24px;
+          border-radius: 20px;
+        }
+
+        .logo {
+          width: 130px;
+        }
+
+        button {
+          height: 44px;
+          font-size: 15px;
+        }
       }
     </style>
   </head>
   <body>
     <div class="card">
-      <p class="logo">SanTa</p>
+      <h1 style="color:#2f5d3a">SanTa</h1>
+      <p class="subtitle">나에게 맞는 등산로를 찾아보세요</p>
       <form id="loginForm">
         <div class="field">
-          <input type="email" id="email" placeholder="이메일 입력" required />
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
-          >
-            <rect x="2.5" y="5" width="19" height="14" rx="2" />
-            <path d="m3 7 9 6 9-6" />
-          </svg>
+          <label for="email">이메일</label>
+          <input type="email" id="email" placeholder="example@email.com" required />
         </div>
         <div class="field">
+          <label for="password">비밀번호</label>
           <input
             type="password"
             id="password"
-            placeholder="비밀번호 입력"
+            placeholder="비밀번호를 입력하세요"
             required
           />
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
-          >
-            <rect x="4" y="10" width="16" height="11" rx="2" />
-            <path d="M8 10V7a4 4 0 0 1 8 0v3" />
-          </svg>
         </div>
-        <button type="submit">log in</button>
-        <p class="create"><a href="signIn.html">create an account</a></p>
+        <button type="submit">로그인</button>
+        <p class="create">
+          계정이 없으신가요? <a href="signIn.html">회원가입</a>
+        </p>
       </form>
       <p id="message"></p>
     </div>
 
+    <script src="config.js"></script>
+    <script src="js/auth.js"></script>
     <script>
-      const SUPABASE_URL = "https://avcferyfoxqrylhsstom.supabase.co";
-      const SUPABASE_KEY = "sb_publishable_EWBX3wzTpHFllAt38lTxGg_Yq3WDKs6";
-      const { createClient } = supabase;
-      const client = createClient(SUPABASE_URL, SUPABASE_KEY);
+      const client = window.santaClient;
+      const form = document.getElementById('loginForm');
 
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
+      // 로그인 버튼을 누르면 실행됩니다.
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault(); // 폼 제출로 페이지가 새로고침되는 것을 막습니다.
 
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-          const messageEl = document.getElementById("message");
+        const message = document.getElementById('message');
+        const button = form.querySelector('button[type="submit"]');
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        button.disabled = true;
 
-          try {
-            const { data, error } = await client
-              .from("users")
-              .select("id, email, password_hash")
-              .eq("email", email)
-              .eq("password_hash", password)
-              .single();
-
-            if (error || !data) {
-              messageEl.textContent = "이메일 또는 비밀번호가 잘못되었습니다.";
-              return;
-            }
-
-            messageEl.textContent = "로그인 성공!";
-            localStorage.setItem("userId", data.id);
-            localStorage.setItem("userEmail", data.email);
-            setTimeout(() => (window.location.href = "index.html"), 1000);
-          } catch (err) {
-            messageEl.textContent = "로그인 실패: " + err.message;
+        try {
+          if (!client) {
+            throw new Error('config.js에 Supabase URL과 공개 키를 설정해 주세요.');
           }
-        });
+
+          // 직접 비밀번호를 비교하지 않고 Supabase Auth에 로그인을 요청합니다.
+          const result = await client.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+          if (result.error) {
+            throw result.error;
+          }
+
+          // 기본 이동 위치는 상세 페이지 목록입니다.
+          let nextPage = new URL('detail.html', window.location.href);
+          const savedPage = sessionStorage.getItem('returnUrl');
+          sessionStorage.removeItem('returnUrl');
+
+          if (savedPage) {
+            try {
+              const previousPage = new URL(savedPage, window.location.origin);
+              // 우리 사이트의 주소일 때만 원래 페이지로 돌아갑니다.
+              if (previousPage.origin === window.location.origin) {
+                nextPage = previousPage;
+              }
+            } catch (error) {
+              console.error('저장된 돌아갈 주소가 올바르지 않습니다.', error);
+            }
+          }
+          window.location.href = nextPage.href;
+        } catch (error) {
+          message.className = 'error';
+          message.textContent = '로그인 실패: ' + error.message;
+        } finally {
+          button.disabled = false;
+        }
+      });
     </script>
   </body>
 </html>

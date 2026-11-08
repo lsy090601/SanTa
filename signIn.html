@@ -26,167 +26,227 @@
 
       body {
         min-height: 100vh;
-        background: #1a5623;
+        background: linear-gradient(135deg, #f5f7f6 0%, #e8f1ed 100%);
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 88px 82px;
+        padding: 20px;
         font-family: "Pretendard", sans-serif;
       }
 
       .card {
         width: 100%;
-        max-width: 1563px;
-        min-height: 942px;
-        background: #fff;
-        border-radius: 83px;
+        max-width: 480px;
+        background: #ffffff;
+        border-radius: 24px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding-top: 163px;
+        padding: 60px 40px;
+        box-shadow: 0 20px 60px rgba(45, 122, 74, 0.08);
+        transition: all 0.3s ease;
+      }
+
+      .card:hover {
+        box-shadow: 0 30px 80px rgba(45, 122, 74, 0.12);
       }
 
       .logo {
-        font-family: "BMkkubulim", "Pretendard", sans-serif;
-        font-size: 64px;
-        color: #1a5623;
-        margin-bottom: 60px;
+        width: 160px;
+        height: auto;
+        margin-bottom: 16px;
+      }
+
+      .subtitle {
+        font-size: 14px;
+        color: #8b9b9d;
+        margin-bottom: 40px;
+        font-weight: 400;
       }
 
       form {
-        width: 430px;
+        width: 100%;
         display: flex;
         flex-direction: column;
       }
 
       .field {
         position: relative;
-        height: 59px;
-        margin-bottom: 24px;
+        margin-bottom: 16px;
+      }
+
+      .field label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: #4a5568;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
       .field input {
         width: 100%;
-        height: 100%;
-        border: 1px solid #1a5623;
-        border-radius: 31.5px;
-        padding: 15px 56px 15px 22px;
+        height: 48px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 12px 16px;
         font-family: "Pretendard", sans-serif;
-        font-weight: 300;
-        font-size: 24px;
-        color: #1a5623;
+        font-weight: 400;
+        font-size: 16px;
+        color: #2c3e50;
         outline: none;
+        background: #f9fafb;
+        transition: all 0.3s ease;
+      }
+
+      .field input:focus {
+        border-color: #2d7a4a;
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(45, 122, 74, 0.1);
       }
 
       .field input::placeholder {
-        color: #1a5623;
-      }
-
-      .field svg {
-        position: absolute;
-        right: 22px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 28px;
-        height: 28px;
-        color: #1a5623;
-        pointer-events: none;
+        color: #cbd5e0;
       }
 
       button {
-        height: 59px;
-        margin-top: 90px;
+        height: 48px;
+        margin-top: 28px;
         border: none;
-        border-radius: 31.5px;
-        background: #1a5623;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #2d7a4a 0%, #1e5631 100%);
         color: #fff;
         font-family: "Pretendard", sans-serif;
-        font-size: 24px;
+        font-weight: 600;
+        font-size: 16px;
         cursor: pointer;
-        filter: drop-shadow(0 0 3.1px #4192ff);
+        transition: all 0.3s ease;
+        letter-spacing: 0.5px;
+        box-shadow: 0 8px 24px rgba(45, 122, 74, 0.2);
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 32px rgba(45, 122, 74, 0.3);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .login-link {
+        margin-top: 24px;
+        text-align: center;
+        font-size: 14px;
+        color: #718096;
+      }
+
+      .login-link a {
+        color: #2d7a4a;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .login-link a:hover {
+        color: #1e5631;
+        text-decoration: underline;
       }
 
       #message {
-        margin-top: 20px;
+        margin-top: 16px;
         text-align: center;
-        font-size: 16px;
-        color: #1a5623;
+        font-size: 14px;
         min-height: 20px;
+        padding: 12px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      #message:empty {
+        padding: 0;
+      }
+
+      #message.success {
+        color: #22863a;
+        background: #f0f8f0;
+      }
+
+      #message.error {
+        color: #cb2431;
+        background: #fef4f4;
+      }
+
+      @media (max-width: 480px) {
+        .card {
+          padding: 40px 24px;
+          border-radius: 20px;
+        }
+
+        .logo {
+          width: 130px;
+        }
+
+        button {
+          height: 44px;
+          font-size: 15px;
+        }
       }
     </style>
   </head>
   <body>
     <div class="card">
-      <p class="logo">SanTa</p>
+      <h1 style="color:#2f5d3a">SanTa</h1>
+      <p class="subtitle">계정을 만들고 후기를 남겨보세요</p>
       <form id="signupForm">
         <div class="field">
-          <input type="email" id="email" placeholder="이메일 입력" required />
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
-          >
-            <rect x="2.5" y="5" width="19" height="14" rx="2" />
-            <path d="m3 7 9 6 9-6" />
-          </svg>
+          <label for="email">이메일</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="example@email.com"
+            required
+          />
         </div>
         <div class="field">
-          <input type="text" id="nickname" placeholder="닉네임 입력" required />
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
-          >
-            <circle cx="12" cy="8" r="3.5" />
-            <path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" />
-          </svg>
+          <label for="nickname">닉네임</label>
+          <input
+            type="text"
+            id="nickname"
+            placeholder="사용할 닉네임을 입력하세요"
+            required
+          />
         </div>
         <div class="field">
+          <label for="password">비밀번호</label>
           <input
             type="password"
             id="password"
-            placeholder="비밀번호 입력"
+            placeholder="비밀번호를 입력하세요"
             required
           />
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
-          >
-            <rect x="4" y="10" width="16" height="11" rx="2" />
-            <path d="M8 10V7a4 4 0 0 1 8 0v3" />
-          </svg>
         </div>
         <div class="field">
+          <label for="passwordConfirm">비밀번호 확인</label>
           <input
             type="password"
             id="passwordConfirm"
-            placeholder="비밀번호 확인"
+            placeholder="비밀번호를 다시 입력하세요"
             required
           />
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
-          >
-            <rect x="4" y="10" width="16" height="11" rx="2" />
-            <path d="M8 10V7a4 4 0 0 1 8 0v3" />
-          </svg>
         </div>
-        <button type="submit">Done</button>
+        <button type="submit">회원가입</button>
+        <p class="login-link">
+          이미 계정이 있으신가요? <a href="logIn.html">로그인</a>
+        </p>
       </form>
       <p id="message"></p>
     </div>
 
+    <script src="config.js"></script>
+    <script src="js/auth.js"></script>
     <script>
-      const SUPABASE_URL = "https://avcferyfoxqrylhsstom.supabase.co";
-      const SUPABASE_KEY = "sb_publishable_EWBX3wzTpHFllAt38lTxGg_Yq3WDKs6";
-      const { createClient } = supabase;
-      const client = createClient(SUPABASE_URL, SUPABASE_KEY);
+      const client = window.santaClient;
 
       document
         .getElementById("signupForm")
@@ -201,17 +261,28 @@
           const messageEl = document.getElementById("message");
 
           if (password !== passwordConfirm) {
+            messageEl.className = "error";
             messageEl.textContent = "비밀번호가 일치하지 않습니다.";
             return;
           }
 
           try {
-            const { data, error } = await client
-              .from("users")
-              .insert([{ nickname, email, password_hash: password }])
-              .select();
+            if (!client) {
+              throw new Error("config.js에 Supabase URL과 공개 키를 설정해 주세요.");
+            }
+            // Supabase Auth가 비밀번호와 인증 세션을 관리합니다.
+            // 닉네임은 사용자 추가 정보에 넣고 비밀번호 처리는 Auth에 맡깁니다.
+            const result = await client.auth.signUp({
+              email: email,
+              password: password,
+              options: {
+                data: { nickname: nickname }
+              }
+            });
+            const error = result.error;
 
             if (error) {
+              messageEl.className = "error";
               messageEl.textContent =
                 error.code === "23505"
                   ? "이미 가입된 이메일입니다."
@@ -219,9 +290,11 @@
               return;
             }
 
-            messageEl.textContent = "회원가입 성공! 로그인 페이지로 이동합니다.";
+            messageEl.className = "success";
+            messageEl.textContent = "가입 요청 완료! 이메일 인증이 설정된 경우 메일을 확인한 뒤 로그인해 주세요.";
             setTimeout(() => (window.location.href = "logIn.html"), 1500);
           } catch (err) {
+            messageEl.className = "error";
             messageEl.textContent = "회원가입 실패: " + err.message;
           }
         });

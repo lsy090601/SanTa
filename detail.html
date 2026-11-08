@@ -1,0 +1,1119 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- 모바일에서도 화면 폭에 맞게 보이도록 하는 설정 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>코스 상세 - SanTa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --green: #2f5d3a;
+        --ink: #1b1f1c;
+        --muted: #6b736d;
+        --line: #e4e7e3;
+        --panel: #f5f5f5;
+      }
+
+      body {
+        background: #fff;
+        font-family: "Noto Sans KR", sans-serif;
+        color: var(--ink);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button {
+        font-family: inherit;
+        cursor: pointer;
+      }
+
+      svg {
+        display: block;
+        flex-shrink: 0;
+      }
+
+      /* ---------- 상단 내비게이션 ---------- */
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        padding: 16px 88px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo img {
+        height: 32px;
+        width: auto;
+      }
+
+      .search {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 22px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+      }
+
+      .search input {
+        flex: 1;
+        min-width: 0;
+        border: none;
+        outline: none;
+        font-family: inherit;
+        font-size: 15px;
+        color: var(--ink);
+      }
+
+      .search input::placeholder {
+        color: #9aa19b;
+      }
+
+      .menu {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        font-size: 15px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .menu .on {
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .menu .record {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .pill-btn {
+        border: 1px solid var(--line);
+        background: #fff;
+        border-radius: 999px;
+        padding: 8px 20px;
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--ink);
+      }
+
+      .pill-btn:hover {
+        background: var(--panel);
+      }
+
+      /* ---------- 코스 상세 영역 (산 사진 + 패널) ---------- */
+      .hero {
+        position: relative;
+        height: 740px;
+        padding: 30px;
+        overflow: hidden;
+        background: #dce9dc;
+      }
+
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .photo-btn {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        width: 48px;
+        height: 48px;
+        border: none;
+        border-radius: 12px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .panel {
+        position: relative;
+        width: 360px;
+        max-height: 100%;
+        overflow-y: auto;
+        background: var(--panel);
+        border-radius: 24px;
+      }
+
+      .panel-head {
+        background: #fff;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .back-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .icon-btn {
+        border: none;
+        background: none;
+        padding: 0;
+        display: flex;
+      }
+
+      .fold-btn {
+        width: 44px;
+        height: 44px;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .region {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      h1 {
+        font-size: 26px;
+        font-weight: 700;
+        line-height: normal;
+      }
+
+      .panel-body {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .panel-body h2 {
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .card.tall {
+        gap: 18px;
+      }
+
+      .level {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .badge {
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      /* 난이도 값이 그대로 class 이름이 되어서 색이 정해짐 */
+      .badge.초심자 {
+        background: #e3f0e4;
+        color: var(--green);
+      }
+
+      .badge.중급자 {
+        background: #fbf1dc;
+        color: #8a5a00;
+      }
+
+      .badge.고수 {
+        background: #f9e4e4;
+        color: #a12a2a;
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .stat {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        width: 130px;
+      }
+
+      .stat:first-child {
+        width: auto;
+      }
+
+      .stat dt {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .stat dd {
+        display: flex;
+        align-items: flex-end;
+        gap: 2px;
+        font-size: 24px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .stat dd small {
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--muted);
+      }
+
+      .risk {
+        background: #f9e4e4;
+        border-radius: 16px;
+        padding: 16px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #a12a2a;
+      }
+
+      .record-btn {
+        width: 100%;
+        padding: 13px 20px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--ink);
+      }
+
+      .record-btn:hover {
+        background: var(--panel);
+      }
+
+      .source {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      /* ---------- 후기 ---------- */
+      .reviews {
+        padding: 56px 88px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .reviews h2 {
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      .login-box {
+        background: var(--panel);
+        border-radius: 20px;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .login-box .title {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .login-box .sub {
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .login-box .pill-btn {
+        padding: 10px 20px;
+      }
+
+      #reviewForm {
+        display: none;
+        background: var(--panel);
+        border-radius: 20px;
+        padding: 20px;
+      }
+
+      #reviewContent {
+        width: 100%;
+        height: 100px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        font-family: inherit;
+        font-size: 15px;
+        resize: none;
+        outline: none;
+      }
+
+      #submitReviewBtn {
+        margin-top: 12px;
+        width: 100%;
+        padding: 13px 20px;
+        border: none;
+        border-radius: 999px;
+        background: var(--green);
+        color: #fff;
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      #submitReviewBtn:disabled {
+        opacity: 0.6;
+      }
+
+      .review {
+        padding: 18px 0;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .review-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .review-date {
+        font-size: 13px;
+        font-weight: 400;
+        color: var(--muted);
+      }
+
+      .review-delete-btn {
+        margin-left: auto;
+        border: 1px solid var(--line);
+        background: #fff;
+        border-radius: 999px;
+        padding: 4px 12px;
+        font-size: 12px;
+        color: #a12a2a;
+      }
+
+      .review-content {
+        font-size: 15px;
+        line-height: 24px;
+      }
+
+      .empty {
+        color: var(--muted);
+        font-size: 15px;
+        padding: 18px 0;
+      }
+
+      /* ---------- 푸터 ---------- */
+      .footer {
+        background: var(--panel);
+        padding: 32px 88px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .footer p:last-child {
+        font-size: 12px;
+      }
+
+      .state {
+        padding: 80px 88px;
+      }
+
+      .sample a {
+        display: block;
+        padding: 10px 0;
+        color: var(--green);
+      }
+
+      /* ---------- 작은 화면 ---------- */
+      @media (max-width: 900px) {
+        .nav {
+          flex-wrap: wrap;
+          gap: 16px;
+          padding: 16px 20px;
+        }
+        .search {
+          order: 3;
+          flex-basis: 100%;
+        }
+        .menu {
+          gap: 16px;
+          margin-left: auto;
+        }
+        .menu .hide-sm {
+          display: none;
+        }
+        .hero {
+          height: auto;
+          min-height: 740px;
+          padding: 16px;
+        }
+        .panel {
+          width: 100%;
+          max-height: none;
+        }
+        .photo-btn {
+          display: none;
+        }
+        .reviews,
+        .footer,
+        .state {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+      /* 지도, 안내 문구, 모바일 화면에서 추가로 사용하는 스타일 */
+      .course-map {
+        position:absolute;
+        inset:0;
+        background:#e8eee7
+      }
+.panel {
+        z-index:2
+      }
+.map-message {
+        position:absolute;
+        z-index:3;
+        top:30px;
+        right:30px;
+        max-width:340px;
+        max-height:580px;
+        overflow:auto;
+        background:#fff;
+        padding:16px;
+        border-radius:16px;
+        box-shadow:0 2px 14px #0002;
+        font-size:14px;
+        line-height:1.7
+      }
+.map-message button {
+        display:block;
+        width:100%;
+        margin-top:8px;
+        text-align:left;
+        padding:10px;
+        background:#f5f5f5;
+        border:1px solid var(--line);
+        border-radius:8px
+      }
+.route-btn {
+        position:absolute;
+        z-index:5;
+        right:30px;
+        bottom:30px;
+        padding:14px 24px;
+        border:0;
+        border-radius:999px;
+        background:var(--green);
+        color:#fff;
+        font-size:15px;
+        font-weight:700;
+        box-shadow:0 2px 14px #0003
+      }
+.route-btn:disabled {
+        opacity:.7;
+        cursor:default
+      }
+.map-message:empty {
+        display:none
+      }
+.review-content {
+        white-space:pre-wrap;
+        overflow-wrap:anywhere
+      }
+.stat dd {
+        white-space:normal;
+        overflow-wrap:anywhere
+      }
+.region {
+        overflow-wrap:anywhere
+      }
+#reviewForm {
+        background:white;
+        border:1px solid var(--line)
+      }
+#submitReviewBtn {
+        width:auto;
+        display:block;
+        margin-left:auto;
+        padding:10px 20px
+      }
+#reviewContent {
+        background:var(--panel);
+        height:88px;
+        border:0
+      }
+
+      @media(max-width:900px) {
+        .hero {
+        display:flex;
+        flex-direction:column;
+        padding:0;
+        min-height:0;
+        height:auto;
+        overflow:visible
+      }
+.course-map {
+        position:relative;
+        height:360px;
+        flex-shrink:0
+      }
+.map-message {
+        top:16px;
+        right:16px;
+        left:16px;
+        max-width:none;
+        max-height:200px
+      }
+.panel {
+        position:relative;
+        margin:16px;
+        width:calc(100% - 32px)
+      }
+.stat {
+        max-width:48%
+      }
+.state {
+        padding-top:32px
+      }
+.sample a {
+        overflow-wrap:anywhere
+      }
+
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- 상단 내비게이션 -->
+    <header class="nav">
+      <a href="index.html" class="logo"><span style="font-size:24px;font-weight:700;color:var(--green)">SanTa</span></a>
+      <form class="search" onsubmit="return false">
+        <img src="assets/search.svg" alt="" />
+        <input aria-label="산 또는 코스 검색" type="text" placeholder="찾고 싶은 산이나 코스를 입력해 주세요." />
+      </form>
+      <nav class="menu">
+        <a href="index.html" class="hide-sm">코스 추천</a>
+        <a href="index.html" class="on hide-sm">코스 검색</a>
+        <span class="record hide-sm">
+          내 기록
+          <img src="assets/down.svg" alt="" />
+        </span>
+        <button class="pill-btn" id="navLoginBtn" onclick="goToLogin()">로그인</button>
+      </nav>
+    </header>
+
+    <!-- 화면 내용을 자바스크립트가 이 div 안에 그려 넣음 -->
+    <main id="app"><p class="state">불러오는 중...</p></main>
+
+    <footer class="footer">
+      <p>등산로 속성 기준일 2016-12-31 · 통제/폐쇄 정보는 실시간이 아니에요</p>
+      <p>산 정보: 산림청 데이터 · 지도 검색 결과는 주소를 확인해 선택해 주세요</p>
+    </footer>
+
+    <!-- Supabase 라이브러리 로드 (후기 데이터베이스 연동용) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/course-map.js"></script>
+    <script>
+      // ============================================
+      // 1. Supabase 초기화 (후기 데이터 저장/조회)
+      // ============================================
+      const client = window.santaClient;
+      // ============================================
+      // 2. URL 파라미터에서 코스 ID 추출 (예: detail.html?id=PMNTN_00007)
+      // ============================================
+      const params = new URLSearchParams(location.search);
+      const courseId = params.get("id");
+
+      // ============================================
+      // 3. 코스 데이터 불러오기
+      // ============================================
+      // 산 목록과 코스 목록을 저장해 두고, 검색할 때도 사용합니다.
+      let allCourses = [];
+
+      // JSON 파일을 읽는 공통 함수입니다.
+      // 파일이 없거나 형식이 잘못되면 호출한 곳의 catch로 넘어갑니다.
+      async function readData(url) {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(url + ' HTTP ' + response.status);
+        }
+        const data = await response.json();
+        if (!Array.isArray(data)) {
+          throw new Error('목록 형태의 데이터가 아닙니다.');
+        }
+        return data;
+      }
+
+      async function loadCourses() {
+        try {
+          const response = await fetch('./data/courses.json');
+
+          // 코스 파일이 없는 경우(404)에만 산 목록을 대신 사용합니다.
+          // 서버 오류나 잘못된 JSON은 숨기지 않고 오류를 표시합니다.
+          if (response.status === 404) {
+            allCourses = await readData('./data/mountains.json');
+          } else {
+            if (!response.ok) {
+              throw new Error('코스 HTTP ' + response.status);
+            }
+            allCourses = await response.json();
+            if (!Array.isArray(allCourses)) {
+              throw new Error('코스 데이터 형식이 잘못되었습니다.');
+            }
+          }
+
+          const mountains = await readData('./data/mountains.json');
+
+          // 산 코드로 주소를 찾아볼 수 있게 저장합니다.
+          // 매 코스마다 산 목록 전체를 다시 찾지 않아도 됩니다.
+          const mountainByCode = {};
+          for (const mountain of mountains) {
+            mountainByCode[mountain.mountain_code] = mountain;
+          }
+
+          // 기존 코스의 거리·시간·ID는 그대로 두고 산 주소만 연결합니다.
+          for (const course of allCourses) {
+            const mountain = mountainByCode[course.mountain_code];
+            if (mountain && mountain.address) {
+              course.address = mountain.address;
+            }
+          }
+
+          // MT_로 시작하는 ID는 '코스'가 아닌 '산 정보'를 여는 주소입니다.
+          if (courseId && courseId.startsWith('MT_')) {
+            const alreadyExists = allCourses.find(function (course) {
+              return course.course_id === courseId;
+            });
+            if (!alreadyExists) {
+              allCourses = allCourses.concat(mountains);
+            }
+          }
+
+          // 로그인 상태 확인이 끝난 뒤 화면을 만듭니다.
+          await window.santaAuthReady;
+          if (!courseId) {
+            renderSample(allCourses);
+            return;
+          }
+
+          const selectedCourse = allCourses.find(function (course) {
+            return course.course_id === courseId;
+          });
+          if (!selectedCourse) {
+            renderError('해당 산이나 코스를 찾을 수 없어요.');
+            return;
+          }
+          render(selectedCourse);
+        } catch (error) {
+          console.error(error);
+          renderError('데이터를 불러오지 못했어요. 잠시 후 새로고침해 주세요.');
+        }
+      }
+
+      loadCourses(); // 페이지를 열면 여기서 데이터 불러오기를 시작합니다.
+
+      // 분 → "1시간 30분" 형식 (숫자는 크게, 단위는 작게 보여주는 HTML)
+      function fmtHtml(min) {
+        if (min == null || !Number.isFinite(Number(min))) return "<small>정보 없음</small>";
+        const h = Math.floor(min / 60);
+        const m = min % 60;
+        const num = (n) => `<span>${n}</span>`;
+        const unit = (u) => `<small>${u}</small>`;
+        if (h === 0) return num(m) + unit("분");
+        return num(h) + unit("시간 ") + (m ? num(m) + unit("분") : "");
+      }
+
+      // 후기 작성 시 HTML이 섞여 들어가지 않도록 이스케이프
+      function esc(s) {
+        return String(s ?? "").replace(
+          /[&<>"']/g,
+          (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch],
+        );
+      }
+
+      // ============================================
+      // 코스 상세 페이지 렌더링
+      // ============================================
+      function render(c) {
+        document.title = c.course_name + " - SanTa";
+        const total = c.up_min == null || c.down_min == null ? null : c.up_min + c.down_min;
+
+
+        document.getElementById("app").innerHTML = `
+          <section class="hero">
+            <div id="courseMap" class="course-map" aria-label="산 위치 지도"></div>
+            <div class="map-message" id="mapMessage" role="status"></div>
+            <aside class="panel">
+              <div class="panel-head">
+                <div class="back-row">
+                  <button class="icon-btn" aria-label="뒤로 가기" onclick="history.length > 1 ? history.back() : (location.href = 'index.html')">
+                    <img src="assets/left.svg" alt="" />
+                  </button>
+                  <button class="fold-btn" aria-label="접기" aria-expanded="true" aria-controls="panelBody" onclick="togglePanel()">
+                    <img src="assets/up.svg" alt="" />
+                  </button>
+                </div>
+                <p class="region">${esc(c.region ? c.region + " · " : "")}${esc(c.mountain_name)}</p>
+                <h1>${esc(c.course_name)}${c.closed ? " 🚫" : ""}</h1>
+              </div>
+
+              <div class="panel-body" id="panelBody">
+                <h2>기본 정보</h2>
+                <div class="card">
+                  <div class="level">난이도 <span class="badge ${esc(c.difficulty)}">${esc(c.difficulty || "정보 없음")}</span></div>
+                  <dl class="row">
+                    <div class="stat"><dt>총 거리</dt><dd><span>${c.distance_km == null ? "정보 없음" : esc(c.distance_km)}</span>${c.distance_km == null ? "" : "<small>km</small>"}</dd></div>
+                    <div class="stat"><dt>소요시간</dt><dd>${fmtHtml(total)}</dd></div>
+                  </dl>
+                </div>
+
+                <p class="source">${c.course_id.startsWith("PMNTN_") ? "거리·시간: 2016년 구간 속성 합계. 난이도: 거리·시간 기반 추정. 연결된 단일 경로임은 미확인." : "코스별 거리·시간·난이도 정보가 없습니다."}</p><h2>산 정보</h2>
+                <div class="card tall">
+                  <dl class="row">
+                    <div class="stat"><dt>산 높이</dt><dd>${
+                      c.mountain_height_m ? `<span>${c.mountain_height_m}</span><small>m</small>` : "<span>-</span>"
+                    }</dd></div>
+                    <div class="stat"><dt>지형</dt><dd><span>${esc(c.terrain_type || "-")}</span></dd></div>
+                  </dl>
+                  <dl class="row">
+                    <div class="stat"><dt>상행</dt><dd>${fmtHtml(c.up_min)}</dd></div>
+                    <div class="stat"><dt>하행</dt><dd>${fmtHtml(c.down_min)}</dd></div>
+                  </dl>
+                </div>
+
+                ${
+                  c.risk_note
+                    ? `<h2>위험구간</h2><p class="risk">${esc(c.risk_note)}</p>`
+                    : ""
+                }
+
+                <p class="source">${esc(c.address || "주소 정보 없음")}</p><p class="source">등산로 좌표계 미확인으로 실제 경로 선은 표시하지 않습니다.</p>
+                <p class="source">산 높이와 주소는 산림청 산정보 기준이에요</p>
+              </div>
+            </aside>
+          </section>
+
+          <section class="reviews">
+            <h2 id="reviewsTitle">후기</h2>
+
+            <!-- 로그인 전 안내 -->
+            <div id="loginPrompt" class="login-box">
+              <p class="title">후기를 남기려면 로그인이 필요해요</p>
+              <p class="sub">이메일 계정으로 로그인해 주세요</p>
+              <button class="pill-btn" onclick="goToLogin()">로그인</button>
+            </div>
+
+            <!-- 로그인 후 입력폼 -->
+            <div id="reviewForm">
+              <textarea aria-label="후기 내용" maxlength="2000" id="reviewContent" placeholder="이 코스에 대한 후기를 남겨주세요..."></textarea>
+              <button id="submitReviewBtn" onclick="submitReview()">저장</button>
+            </div>
+
+            <div id="reviewsList"></div>
+            <p id="emptyReviewsMsg" class="empty" style="display:none">아직 후기가 없어요.</p>
+          </section>
+        `;
+
+        updateAuthUI();
+        window.showCourseMap(c);
+        loadReviews();
+      }
+      // 실제 로그인한 사용자가 있는지에 따라 버튼과 입력폼을 바꿉니다.
+      function updateAuthUI() {
+        const loginPrompt = document.getElementById('loginPrompt');
+        const reviewForm = document.getElementById('reviewForm');
+        const loginButton = document.getElementById('navLoginBtn');
+
+        if (window.santaUser) {
+          loginPrompt.style.display = 'none';
+          reviewForm.style.display = 'block';
+          loginButton.textContent = '로그아웃';
+          loginButton.onclick = logout;
+        } else {
+          loginPrompt.style.display = 'flex';
+          reviewForm.style.display = 'none';
+          loginButton.textContent = '로그인';
+          loginButton.onclick = goToLogin;
+        }
+      }
+
+      async function logout() {
+        const result = await client.auth.signOut();
+        if (result.error) {
+          alert('로그아웃 실패: ' + result.error.message);
+          return;
+        }
+        window.santaUser = null;
+        // 이전 버전이 저장해 둔 로그인 표시도 함께 비웁니다.
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userId');
+        updateAuthUI();
+        loadReviews();
+      }
+
+      // 패널 본문을 숨기거나 다시 보여 줍니다.
+      function togglePanel() {
+        const body = document.getElementById('panelBody');
+        const button = document.querySelector('.fold-btn');
+        const icon = button.querySelector('img');
+
+        if (body.style.display === 'none') {
+          body.style.display = '';
+          button.setAttribute('aria-expanded', 'true');
+          button.setAttribute('aria-label', '접기');
+          icon.src = 'assets/up.svg';
+        } else {
+          body.style.display = 'none';
+          button.setAttribute('aria-expanded', 'false');
+          button.setAttribute('aria-label', '펼치기');
+          icon.src = 'assets/down.svg';
+        }
+      }
+
+      // 로그인 후 이 상세 페이지로 돌아오도록 현재 주소를 잠시 저장합니다.
+      function goToLogin() {
+        sessionStorage.setItem('returnUrl', window.location.href);
+        window.location.href = './logIn.html';
+      }
+
+      // config.js에서 정한 후기 테이블을 사용합니다.
+      const reviewTable = window.SANTA_CONFIG.reviewsTable;
+
+      // 후기 저장: 로그인 확인 → 내용 확인 → DB에 저장 → 목록 새로고침
+      async function submitReview() {
+        if (!window.santaUser) {
+          goToLogin();
+          return;
+        }
+
+        const input = document.getElementById('reviewContent');
+        const text = input.value.trim();
+        if (text.length === 0 || text.length > 2000) {
+          alert('후기를 1~2000자로 입력해 주세요.');
+          return;
+        }
+
+        const button = document.getElementById('submitReviewBtn');
+        button.disabled = true; // 저장 중 중복 클릭을 막습니다.
+        button.textContent = '저장 중...';
+
+        try {
+          const result = await client.from(reviewTable).insert({
+            mountain_id: courseId, // 현재 보고 있는 산 또는 코스의 ID
+            user_id: window.santaUser.id, // 서버가 확인한 내 사용자 ID
+            text: text
+          });
+          if (result.error) {
+            throw result.error;
+          }
+          input.value = '';
+          await loadReviews();
+        } catch (error) {
+          alert('저장 실패: ' + error.message);
+        } finally {
+          // 성공하든 실패하든 저장 버튼을 다시 사용할 수 있게 합니다.
+          button.disabled = false;
+          button.textContent = '저장';
+        }
+      }
+
+      // 삭제 버튼을 숨기는 것만으로 권한이 보호되지는 않습니다.
+      // DB에도 auth.uid() = user_id 정책을 적용해야 합니다.
+      async function deleteReview(reviewId) {
+        if (!window.santaUser) {
+          return;
+        }
+        if (!confirm('후기를 삭제할까요?')) {
+          return;
+        }
+
+        try {
+          const result = await client
+            .from(reviewTable)
+            .delete()
+            .eq('id', reviewId)
+            .eq('user_id', window.santaUser.id)
+            .select('id');
+
+          if (result.error) {
+            throw result.error;
+          }
+          if (result.data.length === 0) {
+            throw new Error('삭제 권한이 없거나 이미 삭제된 후기입니다.');
+          }
+          await loadReviews();
+        } catch (error) {
+          alert('삭제 실패: ' + error.message);
+        }
+      }
+
+      // 후기 한 개의 HTML 요소를 만듭니다.
+      function makeReviewElement(review) {
+        const article = document.createElement('article');
+        article.className = 'review';
+        const header = document.createElement('div');
+        header.className = 'review-head';
+
+        let isMyReview = false;
+        if (window.santaUser && review.user_id === window.santaUser.id) {
+          isMyReview = true;
+        }
+
+        let writer = '등산객';
+        if (isMyReview) {
+          writer = '내 후기';
+        }
+        const date = new Date(review.created_at).toLocaleDateString('ko-KR');
+        header.textContent = writer + ' · ' + date;
+
+        if (isMyReview) {
+          const button = document.createElement('button');
+          button.className = 'review-delete-btn';
+          button.textContent = '삭제';
+          button.onclick = function () {
+            deleteReview(review.id);
+          };
+          header.append(button);
+        }
+
+        const content = document.createElement('p');
+        content.className = 'review-content';
+        // textContent를 쓰면 후기에 HTML이 있어도 글자로만 표시됩니다.
+        content.textContent = review.text;
+        article.append(header, content);
+        return article;
+      }
+
+      async function loadReviews() {
+        const list = document.getElementById('reviewsList');
+        list.textContent = '후기를 불러오는 중...';
+        if (!client) {
+          list.textContent = '후기 연결을 위해 Supabase 설정이 필요합니다.';
+          return;
+        }
+
+        try {
+          const result = await client
+            .from(reviewTable)
+            .select('id,user_id,text,created_at')
+            .eq('mountain_id', courseId)
+            .order('created_at', { ascending: false });
+
+          if (result.error) {
+            throw result.error;
+          }
+
+          const reviews = result.data;
+          document.getElementById('reviewsTitle').textContent = '후기 ' + reviews.length;
+          list.replaceChildren();
+          if (reviews.length === 0) {
+            list.textContent = '아직 후기가 없어요.';
+          }
+          for (const review of reviews) {
+            list.append(makeReviewElement(review));
+          }
+        } catch (error) {
+          console.error(error);
+          list.textContent = '후기를 불러오지 못했습니다. Supabase 설정과 후기 테이블·권한을 확인해 주세요.';
+          const button = document.createElement('button');
+          button.textContent = '다시 시도';
+          button.onclick = loadReviews;
+          list.append(button);
+        }
+      }
+
+      // 코스를 찾을 수 없거나 데이터 로딩에 실패했을 때
+      function renderError(msg) {
+        document.getElementById("app").innerHTML = `<p class="state empty">${msg}</p>`;
+      }
+
+      // 주소에 ?id=가 없으면 선택할 수 있는 목록을 보여 줍니다.
+      function renderSample(courses) {
+        let links = '';
+        let count = 0;
+
+        for (const course of courses) {
+          const searchText = course.mountain_name + ' ' + course.course_name + ' ' + (course.address || '');
+          if (window.searchTerm && !searchText.includes(window.searchTerm)) {
+            continue; // 검색어가 없는 항목은 건너뜁니다.
+          }
+
+          const url = 'detail.html?id=' + encodeURIComponent(course.course_id);
+          links += '<a href="' + url + '">';
+          links += esc(course.mountain_name) + ' / ' + esc(course.course_name);
+          links += ' · ' + esc(course.region || '지역 미상') + '</a>';
+          count++;
+          if (count === 60) {
+            break; // 화면에 한꺼번에 너무 많은 항목을 그리지 않습니다.
+          }
+        }
+
+        if (count === 0) {
+          links = '검색 결과가 없습니다.';
+        }
+
+        document.getElementById('app').innerHTML = `
+          <div class="state">
+            <h2>산과 코스를 선택하세요</h2>
+            <p>이름이나 지역으로 검색할 수 있어요. 최대 60개를 표시합니다.</p>
+            <div class="sample">${links}</div>
+          </div>
+        `;
+      }
+
+      // 검색창에서 Enter를 누르면 현재 데이터에서 이름이나 주소를 찾습니다.
+      document.querySelector('.search').addEventListener('submit', function (event) {
+        event.preventDefault();
+        window.searchTerm = document.querySelector('.search input').value.trim();
+        renderSample(allCourses);
+      });
+    </script>
+  </body>
+</html>
