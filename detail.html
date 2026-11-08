@@ -46,70 +46,6 @@
         flex-shrink: 0;
       }
 
-      /* ---------- 상단 내비게이션 ---------- */
-      .nav {
-        display: flex;
-        align-items: center;
-        gap: 40px;
-        padding: 16px 88px;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .logo {
-        display: flex;
-        align-items: center;
-      }
-
-      .logo img {
-        height: 32px;
-        width: auto;
-      }
-
-      .search {
-        flex: 1;
-        min-width: 0;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 13px 22px;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-      }
-
-      .search input {
-        flex: 1;
-        min-width: 0;
-        border: none;
-        outline: none;
-        font-family: inherit;
-        font-size: 15px;
-        color: var(--ink);
-      }
-
-      .search input::placeholder {
-        color: #9aa19b;
-      }
-
-      .menu {
-        display: flex;
-        align-items: center;
-        gap: 28px;
-        font-size: 15px;
-        color: var(--muted);
-        white-space: nowrap;
-      }
-
-      .menu .on {
-        font-weight: 700;
-        color: var(--ink);
-      }
-
-      .menu .record {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-      }
-
       .pill-btn {
         border: 1px solid var(--line);
         background: #fff;
@@ -470,22 +406,6 @@
 
       /* ---------- 작은 화면 ---------- */
       @media (max-width: 900px) {
-        .nav {
-          flex-wrap: wrap;
-          gap: 16px;
-          padding: 16px 20px;
-        }
-        .search {
-          order: 3;
-          flex-basis: 100%;
-        }
-        .menu {
-          gap: 16px;
-          margin-left: auto;
-        }
-        .menu .hide-sm {
-          display: none;
-        }
         .hero {
           height: auto;
           min-height: 740px;
@@ -628,23 +548,8 @@
     </style>
   </head>
   <body>
-    <!-- 상단 내비게이션 -->
-    <header class="nav">
-      <a href="fronted/index.html" class="logo"><span style="font-size:24px;font-weight:700;color:var(--green)">SanTa</span></a>
-      <form class="search" action="fronted/search.html" role="search">
-        <img src="assets/search.svg" alt="" />
-        <input aria-label="산 또는 코스 검색" type="search" name="search" placeholder="찾고 싶은 산이나 코스를 입력해 주세요." />
-      </form>
-      <nav class="menu">
-        <a href="fronted/index.html" class="hide-sm">코스 추천</a>
-        <a href="fronted/search.html" class="on hide-sm">코스 검색</a>
-        <span class="record hide-sm">
-          내 기록
-          <img src="assets/down.svg" alt="" />
-        </span>
-        <button class="pill-btn" id="navLoginBtn" onclick="goToLogin()">로그인</button>
-      </nav>
-    </header>
+    <!-- 상단 내비게이션 (js/header.js가 그려 줍니다) -->
+    <script src="js/header.js"></script>
 
     <!-- 화면 내용을 자바스크립트가 이 div 안에 그려 넣음 -->
     <main id="app"><p class="state">불러오는 중...</p></main>
@@ -869,34 +774,16 @@
       function updateAuthUI() {
         const loginPrompt = document.getElementById('loginPrompt');
         const reviewForm = document.getElementById('reviewForm');
-        const loginButton = document.getElementById('navLoginBtn');
 
         if (window.santaUser) {
           loginPrompt.style.display = 'none';
           reviewForm.style.display = 'block';
-          loginButton.textContent = '로그아웃';
-          loginButton.onclick = logout;
         } else {
           loginPrompt.style.display = 'flex';
           reviewForm.style.display = 'none';
-          loginButton.textContent = '로그인';
-          loginButton.onclick = goToLogin;
         }
       }
 
-      async function logout() {
-        const result = await client.auth.signOut();
-        if (result.error) {
-          alert('로그아웃 실패: ' + result.error.message);
-          return;
-        }
-        window.santaUser = null;
-        // 이전 버전이 저장해 둔 로그인 표시도 함께 비웁니다.
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('userId');
-        updateAuthUI();
-        loadReviews();
-      }
 
       // 패널 본문을 숨기거나 다시 보여 줍니다.
       function togglePanel() {
@@ -954,6 +841,17 @@
             throw result.error;
           }
           input.value = '';
+
+          // 후기를 남기면 내 등산 기록(마이페이지)에도 남깁니다.
+          // 같은 날 같은 코스는 한 번만 기록하고, 기록에 실패해도 후기 저장은 그대로 둡니다.
+          const visitResult = await client.from('visits').upsert(
+            { user_id: window.santaUser.id, course_id: courseId },
+            { onConflict: 'user_id,course_id,visited_on', ignoreDuplicates: true }
+          );
+          if (visitResult.error) {
+            console.error('내 등산 기록에 남기지 못했습니다.', visitResult.error);
+          }
+
           await loadReviews();
         } catch (error) {
           alert('저장 실패: ' + error.message);
