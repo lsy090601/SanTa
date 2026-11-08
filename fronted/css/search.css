@@ -1,0 +1,239 @@
+/*---------- 페이지 ----------*/
+.search-page {
+  padding-block: 56px 80px;
+}
+
+.search-page__title {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.search-page__desc {
+  margin-top: 4px;
+  font-size: 15px;
+  color: var(--color-text-muted);
+}
+
+.search-page__layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  align-items: start;
+  margin-top: 28px;
+}
+
+/*---------- 필터 ----------*/
+.filter {
+  padding: 28px 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg);
+}
+
+.filter__form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.filter__label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.filter__label--inline {
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+.filter__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* 칩: 진짜 input은 화면에서만 숨기고 label을 칩 모양으로 */
+.option-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.option {
+  padding: 6px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.option:hover {
+  background-color: var(--color-bg-subtle);
+}
+
+.option-input:checked + .option {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.option-input:focus-visible + .option {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* 슬라이더 */
+.filter__range {
+  width: 100%;
+  accent-color: var(--color-primary);
+}
+
+.filter__range-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.filter__range-value {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* 드롭다운 */
+.filter__select {
+  width: 100%;
+  height: 44px;
+  padding-inline: 14px 40px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-bg)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231b1f1c' stroke-width='1.6'/%3E%3C/svg%3E")
+    no-repeat right 16px center;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* 토글 스위치 */
+.filter__switch-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.switch {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-border);
+  appearance: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.switch::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg);
+  transition: transform 0.2s;
+}
+
+.switch:checked {
+  background-color: var(--color-primary);
+}
+
+.switch:checked::before {
+  transform: translateX(18px);
+}
+
+.switch:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* 버튼 */
+.filter__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.filter__submit {
+  width: 100%;
+  height: 44px;
+}
+
+.filter__reset {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.filter__reset:hover {
+  text-decoration: underline;
+}
+
+/*---------- 결과 ----------*/
+.result__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.result__title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.result__sort {
+  border: none;
+  background: none;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.result__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.result__empty {
+  margin-top: 16px;
+  padding: 60px 20px;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.result__empty-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.result__empty-desc {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/*---------- 반응형 ----------*/
+@media (max-width: 1024px) {
+  .search-page__layout {
+    grid-template-columns: 1fr;
+  }
+}

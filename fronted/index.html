@@ -1,43 +1,372 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
+    <script src="js/common.js" defer></script>
+    <script src="js/main.js" defer></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Santa</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <title>SanTa</title>
+    <!-- 폰트 제공하는 서버랑 연결 준비 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/main.css" />
   </head>
-
   <body>
-    <header>
-      <section class="search-section">
-        <input type="text" placeholder="산 이름, 지역, 난이도로 선택" />
-      </section>
+    <!------------------ header ------------------>
+    <header class="header header--transparent">
+      <div class="container header__inner">
+        <a href="index.html" class="header__logo">SanTa</a>
+
+        <nav class="header__nav" aria-label="헤더 메뉴">
+          <ul class="header__list">
+            <li><a href="index.html" aria-current="page">코스 추천</a></li>
+            <li><a href="search.html">코스 검색</a></li>
+            <li><button type="button">내 기록</button></li>
+          </ul>
+          <button type="button" class="btn btn--outline-light">로그인</button>
+        </nav>
+      </div>
     </header>
 
-    <section class="recommend-mountain-card">
-      <div class="mountain-card">
-        <img src="assets/한라산.jpg" alt="한라산" />
-        <div class="mountain-recommend-right">
-          <p>오늘의 추천</p>
-          <hr />
-          <h2>
-            대한민국에서 가장 높은 곳,
-            <br />
-            오늘 도전해볼까요?
-          </h2>
-          <p>1950m 정상에서 보는 풍경은 다른 산과는 확실히 달라요.</p>
-        </div>
-      </div>
-    </section>
+    <!------------------ hero ------------------>
 
-    <section class="mountain-type">
-      <h2>나에게 맞는 산을 찾아볼까요?</h2>
-      <p>검색 기능을 통해 조건에 맞는 산을 찾을 수 있어요.</p>
-      <div class="main-mountain-img">
-        <img src="assets/한라산.jpg" alt="한라산" />
-        <img src="assets/지리산.jpg" alt="지리산" />
-        <img src="assets/북한산.jpg" alt="북한산" />
+    <main>
+      <section class="hero">
+        <div class="hero__slides">
+          <img
+            src="images/hero-1.jpg"
+            alt="노을"
+            class="hero__slide hero__slide--active"
+          />
+          <img src="images/hero-2.jpg" alt="하르방" class="hero__slide" />
+        </div>
+        <div class="hero__overlay" aria-hidden="true"></div>
+        <div class="container hero__content">
+          <h1 class="hero__title">
+            내 체력에 맞는 산을 <br />
+            지금 바로 찾아보세요
+          </h1>
+          <p class="hero__desc">
+            산 이름이나 코스를 검색하거나, 난이도로 추천받아 보세요.
+          </p>
+          <form action="search.html" class="hero__search" role="search">
+            <!-- 떠 있는 거 -->
+            <ul class="autocomplete">
+              <li class="autocomplete__item autocomplete__item--active">
+                <span class="autocomplete__icon" aria-hidden="true">
+                  <img src="images/icon-mountain.svg" alt="" />
+                </span>
+                <div>
+                  <strong class="autocomplete__name">관악산 A코스</strong>
+                  <span class="autocomplete__meta">코스길이 3.2km 서울</span>
+                </div>
+              </li>
+              <li class="autocomplete__item">
+                <span class="autocomplete__icon" aria-hidden="true">
+                  <img src="images/icon-mountain.svg" alt="" />
+                </span>
+                <div>
+                  <strong class="autocomplete__name">관악산 B코스</strong>
+                  <span class="autocomplete__meta">코스길이 4.1km 서울</span>
+                </div>
+              </li>
+              <li class="autocomplete__item">
+                <span class="autocomplete__icon" aria-hidden="true">
+                  <img src="images/icon-mountain.svg" alt="" />
+                </span>
+                <div>
+                  <strong class="autocomplete__name">관악산 C코스</strong>
+                  <span class="autocomplete__meta">코스길이 2.8km 경기</span>
+                </div>
+              </li>
+              <li class="autocomplete__item">
+                <span class="autocomplete__icon" aria-hidden="true">
+                  <img src="images/icon-mountain.svg" alt="" />
+                </span>
+                <div>
+                  <strong class="autocomplete__name">관악산 연주대 코스</strong>
+                  <span class="autocomplete__meta">코스길이 5.3km 경기</span>
+                </div>
+              </li>
+            </ul>
+            <!------------------ hero search ------------------>
+            <div class="search-box">
+              <img
+                src="images/icon-search.svg"
+                alt=""
+                class="search-box__icon"
+              />
+              <input
+                type="search"
+                class="search-box__input"
+                name="search"
+                placeholder="찾고 싶은 산이나 코스를 입력해 주세요."
+                aria-label="산 또는 코스 검색란"
+              />
+            </div>
+          </form>
+        </div>
+        <div class="container hero__controls">
+          <button
+            type="button"
+            class="hero__dot hero__dot--active"
+            aria-label="1번 슬라이드"
+            aria-current="true"
+          ></button>
+          <button
+            type="button"
+            class="hero__dot"
+            aria-label="2번 슬라이드"
+          ></button>
+          <button
+            type="button"
+            class="hero__pause"
+            aria-label="자동 재생 일시정지"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+              <rect
+                x="2"
+                y="1"
+                width="3.5"
+                height="12"
+                rx="1"
+                fill="currentColor"
+              />
+              <rect
+                x="8.5"
+                y="1"
+                width="3.5"
+                height="12"
+                rx="1"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        </div>
+      </section>
+      <!------------------ intro ------------------>
+      <section class="intro">
+        <div class="container">
+          <div class="intro__head">
+            <h2 class="intro__title">
+              초보자의 첫 산행을<br />쉬운 길로 안내해요.
+            </h2>
+            <p class="intro__desc">
+              등산 정보는 대부분 경험자 기준이라 처음엔 어렵게 느껴져요. SanTa는
+              거리와 소요시간으로 초보자도 부담 없이 고를 수 있는 코스를
+              보여드려요.
+            </p>
+          </div>
+
+          <ul class="intro__features">
+            <li class="feature">
+              <span class="feature__icon" aria-hidden="true">
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M2 19 9 8l4 6 3-4 6 9z" />
+                </svg>
+              </span>
+              <h3 class="feature__title">난이도 기반 추천</h3>
+              <p class="feature__desc">
+                쉬움, 중간, 어려움 중에 고르면 거리와 시간으로 맞는 코스를
+                골라줘요.
+              </p>
+            </li>
+            <li class="feature">
+              <span class="feature__icon" aria-hidden="true">
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                >
+                  <path d="M4 6h16M4 12h16M4 18h16" />
+                  <circle cx="9" cy="6" r="2" fill="currentColor" />
+                  <circle cx="15" cy="12" r="2" fill="currentColor" />
+                  <circle cx="9" cy="18" r="2" fill="currentColor" />
+                </svg>
+              </span>
+              <h3 class="feature__title">다중 조건 검색</h3>
+              <p class="feature__desc">
+                난이도, 길이, 소요시간, 지형, 지역으로 찾고 통제 코스는 자동으로
+                빼요.
+              </p>
+            </li>
+            <li class="feature">
+              <span class="feature__icon" aria-hidden="true">
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M4 4h16v12H9l-5 4z" />
+                </svg>
+              </span>
+              <h3 class="feature__title">코스 상세와 후기</h3>
+              <p class="feature__desc">
+                산 높이와 사진, 위험구간을 확인하고 다녀온 사람들의 후기를
+                읽어요.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!------------------ recommend ------------------>
+      <section class="recommend">
+        <div class="container">
+          <div class="recommend__head">
+            <div>
+              <h2 class="recommend__title">초심자에게 추천하는 코스</h2>
+              <p class="recommend__desc">
+                총 소요시간과 거리가 짧은 순서로 골랐어요
+              </p>
+            </div>
+            <a href="search.html" class="recommend__more">전체 코스 보기 →</a>
+          </div>
+
+          <ul class="recommend__list">
+            <li>
+              <article class="course-card">
+                <img
+                  src="images/course-1.jpg"
+                  alt="아차산 사진"
+                  class="course-card__image"
+                />
+                <div class="course-card__body">
+                  <p class="course-card__meta">아차산 · 높이 287m</p>
+                  <h3 class="course-card__title">아차산 생태공원 코스</h3>
+                  <div class="course-card__badges">
+                    <span class="badge badge--easy">쉬움</span>
+                    <span class="badge">2.1km</span>
+                    <span class="badge">총 1시간 10분</span>
+                  </div>
+                  <p class="course-card__desc">
+                    추천 이유 · 짧은 거리에 오르막이 완만해요
+                  </p>
+                </div>
+              </article>
+            </li>
+            <li>
+              <article class="course-card">
+                <img
+                  src="images/course-2.jpg"
+                  alt="인왕산 사진"
+                  class="course-card__image"
+                />
+                <div class="course-card__body">
+                  <p class="course-card__meta">인왕산 · 높이 338m</p>
+                  <h3 class="course-card__title">인왕산 둘레 코스</h3>
+                  <div class="course-card__badges">
+                    <span class="badge badge--easy">쉬움</span>
+                    <span class="badge">2.6km</span>
+                    <span class="badge">총 1시간 30분</span>
+                  </div>
+                  <p class="course-card__desc">
+                    추천 이유 · 1시간 반이면 다녀올 수 있어요
+                  </p>
+                </div>
+              </article>
+            </li>
+            <li>
+              <article class="course-card">
+                <img
+                  src="images/course-3.jpg"
+                  alt="청계산 사진"
+                  class="course-card__image"
+                />
+                <div class="course-card__body">
+                  <p class="course-card__meta">청계산 · 높이 618m</p>
+                  <h3 class="course-card__title">청계산 옛골 코스</h3>
+                  <div class="course-card__badges">
+                    <span class="badge badge--medium">중간</span>
+                    <span class="badge">3.4km</span>
+                    <span class="badge">총 2시간 20분</span>
+                  </div>
+                  <p class="course-card__desc">
+                    추천 이유 · 조금 더 올라가고 싶을 때 좋아요
+                  </p>
+                </div>
+              </article>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!------------------ data ------------------>
+      <section class="data">
+        <div class="container">
+          <p class="data__label">믿을 수 있는 정보</p>
+          <h2 class="data__title">
+            공공데이터로 만든,<br />믿을 수 있는 코스 정보
+          </h2>
+          <p class="data__desc">
+            산림청 등산로 데이터와 산정보 OpenAPI를 바탕으로<br />
+            거리, 시간, 난이도, 산 높이를 보여드려요.
+          </p>
+          <ul class="data__chips">
+            <li class="chip">산림청 등산로 데이터</li>
+            <li class="chip">산림청 산정보 OpenAPI</li>
+            <li class="chip">난이도 · 거리 · 시간 · 산 높이</li>
+          </ul>
+        </div>
+      </section>
+
+      <!------------------ cta ------------------>
+      <section class="cta">
+        <img src="images/cta.jpg" alt="" class="cta__bg" />
+        <div class="cta__overlay" aria-hidden="true"></div>
+        <div class="container cta__content">
+          <h2 class="cta__title">첫 산행, 지금 시작해볼까요?</h2>
+          <p class="cta__desc">
+            로그인하면 후기를 남기고, 다녀온 코스를 기록할 수 있어요.
+          </p>
+          <div class="cta__actions">
+            <a href="search.html" class="btn btn--primary btn--lg"
+              >내 코스 추천받기</a
+            >
+            <button type="button" class="btn btn--outline-light btn--lg">
+              Google 로그인
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!------------------ footer ------------------>
+
+    <footer class="footer footer--dark">
+      <div class="container footer__inner">
+        <nav class="footer__nav" aria-label="푸터 메뉴">
+          <ul class="footer__list">
+            <li>
+              <a href="search.html">코스 검색</a>
+            </li>
+            <li>
+              <a href="#">내 기록</a>
+            </li>
+          </ul>
+        </nav>
+        <p class="footer__text">SanTa · 팀 이서영, 이서현</p>
+        <p class="footer__text">
+          등산로 데이터 최종 수정일 2016-12-31 · 통제/폐쇄 정보는 실시간이
+          아닙니다.
+        </p>
       </div>
-    </section>
+    </footer>
   </body>
 </html>

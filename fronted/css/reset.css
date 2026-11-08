@@ -1,0 +1,50 @@
+::before {
+  box-sizing: border-box;
+}
+
+::after {
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding-left: 0;
+}
+
+img {
+  display: block; /* 이미지 아래 틈 삭제. (이미지는 글자 취급되는 inline요소라서 글자의 기준선 때문에 이미지 이래에 px틈이 생김.) */
+  max-width: 100%; /*부모 너비 초과 방지*/
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  background: none;
+  color: inherit; /*부모의 글자색을 물려받음.*/
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none; /*밑줄 제거*/
+  color: inherit; /*부모 요소 글자색 상속*/
+
+  /* 나중에 hover나 focus 추가 */
+}
+
+fieldset {
+  border: none; /* 테두리제거 */
+  padding: 0; /* 안쪽 여백 제거 */
+}

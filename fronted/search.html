@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <script src="js/common.js" defer></script>
+    <script src="js/search.js" defer></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>코스 검색 | SanTa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/search.css" />
+  </head>
+  <body>
+    <!------------------ header ------------------>
+    <header class="header">
+      <div class="container header__inner">
+        <a href="index.html" class="header__logo">SanTa</a>
+
+        <form action="search.html" class="header__search" role="search">
+          <div class="search-box search-box--sm">
+            <img src="images/icon-search.svg" alt="" class="search-box__icon" />
+            <input
+              type="search"
+              class="search-box__input"
+              name="search"
+              placeholder="찾고 싶은 산이나 코스를 입력해 주세요."
+              aria-label="산 또는 코스 검색"
+            />
+          </div>
+        </form>
+
+        <nav class="header__nav" aria-label="헤더 메뉴">
+          <ul class="header__list">
+            <li><a href="index.html">코스 추천</a></li>
+            <li><a href="search.html" aria-current="page">코스 검색</a></li>
+            <li><button type="button">내 기록</button></li>
+          </ul>
+          <button type="button" class="btn btn--outline">로그인</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container search-page">
+      <div class="search-page__head">
+        <h1 class="search-page__title">코스 검색</h1>
+        <p class="search-page__desc">
+          조건을 고르면 맞는 코스만 보여드려요 · 통제/폐쇄 코스는 자동으로
+          제외돼요
+        </p>
+      </div>
+
+      <div class="search-page__layout">
+        <!------------------ 필터 ------------------>
+        <aside class="filter">
+          <form class="filter__form" id="filter-form">
+            <fieldset class="filter__group">
+              <legend class="filter__label">난이도</legend>
+              <div class="filter__options">
+                <input
+                  type="checkbox"
+                  id="level-easy"
+                  name="level"
+                  value="easy"
+                  class="option-input"
+                  checked
+                />
+                <label for="level-easy" class="option">쉬움</label>
+                <input
+                  type="checkbox"
+                  id="level-medium"
+                  name="level"
+                  value="medium"
+                  class="option-input"
+                />
+                <label for="level-medium" class="option">중간</label>
+                <input
+                  type="checkbox"
+                  id="level-hard"
+                  name="level"
+                  value="hard"
+                  class="option-input"
+                />
+                <label for="level-hard" class="option">어려움</label>
+              </div>
+            </fieldset>
+
+            <fieldset class="filter__group">
+              <legend class="filter__label">코스 길이</legend>
+              <input
+                type="range"
+                id="length"
+                name="length"
+                min="0"
+                max="10"
+                step="0.5"
+                value="5"
+                class="filter__range"
+                aria-label="최대 코스 길이"
+              />
+              <div class="filter__range-labels">
+                <span>0km</span>
+                <output for="length" class="filter__range-value"
+                  >최대 5km</output
+                >
+                <span>10km 이상</span>
+              </div>
+            </fieldset>
+
+            <fieldset class="filter__group">
+              <legend class="filter__label">총 소요시간</legend>
+              <div class="filter__options">
+                <input
+                  type="radio"
+                  id="time-1"
+                  name="time"
+                  value="0-60"
+                  class="option-input"
+                />
+                <label for="time-1" class="option">1시간 이내</label>
+                <input
+                  type="radio"
+                  id="time-2"
+                  name="time"
+                  value="60-120"
+                  class="option-input"
+                  checked
+                />
+                <label for="time-2" class="option">1~2시간</label>
+                <input
+                  type="radio"
+                  id="time-3"
+                  name="time"
+                  value="120-180"
+                  class="option-input"
+                />
+                <label for="time-3" class="option">2~3시간</label>
+                <input
+                  type="radio"
+                  id="time-4"
+                  name="time"
+                  value="180-"
+                  class="option-input"
+                />
+                <label for="time-4" class="option">3시간 이상</label>
+              </div>
+            </fieldset>
+
+            <fieldset class="filter__group">
+              <legend class="filter__label">지형</legend>
+              <div class="filter__options">
+                <input
+                  type="checkbox"
+                  id="terrain-soil"
+                  name="terrain"
+                  value="soil"
+                  class="option-input"
+                  checked
+                />
+                <label for="terrain-soil" class="option">흙산</label>
+                <input
+                  type="checkbox"
+                  id="terrain-rock"
+                  name="terrain"
+                  value="rock"
+                  class="option-input"
+                />
+                <label for="terrain-rock" class="option">돌산</label>
+                <input
+                  type="checkbox"
+                  id="terrain-mixed"
+                  name="terrain"
+                  value="mixed"
+                  class="option-input"
+                />
+                <label for="terrain-mixed" class="option">혼합</label>
+              </div>
+            </fieldset>
+
+            <div class="filter__group">
+              <label for="region" class="filter__label">지역</label>
+              <select id="region" name="region" class="filter__select">
+                <option value="">전체</option>
+                <option value="seoul" selected>서울</option>
+                <option value="gyeonggi">경기</option>
+                <option value="gangwon">강원</option>
+              </select>
+            </div>
+
+            <div class="filter__switch-row">
+              <label
+                for="exclude-closed"
+                class="filter__label filter__label--inline"
+                >통제/폐쇄 코스 제외</label
+              >
+              <input
+                type="checkbox"
+                id="exclude-closed"
+                name="excludeClosed"
+                class="switch"
+                checked
+              />
+            </div>
+
+            <div class="filter__actions">
+              <button type="submit" class="btn btn--primary filter__submit">
+                필터 적용
+              </button>
+              <button type="reset" class="filter__reset">초기화</button>
+            </div>
+          </form>
+        </aside>
+
+        <!------------------ 결과 ------------------>
+        <section class="result" aria-labelledby="result-title">
+          <div class="result__head">
+            <h2 class="result__title" id="result-title">
+              조건에 맞는 코스 <span class="result__count">4</span>개
+            </h2>
+            <select class="result__sort" aria-label="정렬 기준">
+              <option value="recommend">추천순</option>
+              <option value="short">거리 짧은순</option>
+              <option value="time">시간 짧은순</option>
+            </select>
+          </div>
+
+          <ul class="result__list"></ul>
+
+          <!-- 결과 0개일 때 JS로 hidden을 지워서 보여 줘요 -->
+          <div class="result__empty" hidden>
+            <p class="result__empty-title">조건에 맞는 코스가 없어요</p>
+            <p class="result__empty-desc">
+              조건을 줄이거나 초기화한 뒤 다시 찾아보세요.
+            </p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!------------------ footer ------------------>
+    <footer class="footer">
+      <div class="container footer__inner">
+        <p class="footer__text">
+          등산로 데이터 최종 수정일 2016-12-31 · 통제/폐쇄 정보는 실시간이
+          아니에요
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
