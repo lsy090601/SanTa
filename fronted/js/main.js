@@ -32,11 +32,12 @@ async function getCourses() {
 
 getCourses();
 
-const searchInput = document.querySelector(".search-box__input");
-const autoList = document.querySelector(".autocomplete");
+const searchInput = document.querySelector(".hero__search .search-box__input");
+const autoList = document.querySelector(".hero__search .autocomplete");
 
 searchInput.addEventListener("input", () => {
   const input = searchInput.value.trim();
+  console.log("입력:", input);
 
   if (!input) {
     autoList.hidden = true;
@@ -48,6 +49,8 @@ searchInput.addEventListener("input", () => {
       return course.산이름.includes(input) || course.코스이름.includes(input);
     })
     .slice(0, 4);
+
+  console.log("찾은 개수:", filteredCourses.length);
 
   if (filteredCourses.length === 0) {
     autoList.hidden = true;
