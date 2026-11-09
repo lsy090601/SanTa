@@ -97,13 +97,28 @@ const levelClass = {
   어려움: "badge--hard",
 };
 
+const courseImg = (course) => {
+  // 코스 번호(PMNTN_00012 → 12)로 사진을 골라서, 카드마다 다르게 보이게 함
+  const courseNumber = Number(String(course.id).replace(/\D/g, "")) || 0;
+
+  if (course.산이름.includes("북한산")) {
+    return `images/bukhansan-${(courseNumber % 7) + 1}.jpg`;
+  }
+
+  if (course.산이름.includes("지리산")) {
+    return "images/jirisan.jpg";
+  }
+
+  return `images/course-${(courseNumber % 4) + 1}.jpg`;
+};
+
 const createCard = (course, isRow) => {
   if (isRow) {
     return `<li>
               <article class="course-card course-card--row">
                 <img
-                  src="images/course-1.jpg"
-                  alt="${course.산이름} 사진"
+                  src="${courseImg(course)}"
+                  alt=""
                   class="course-card__image"
                 />
                 <div class="course-card__body">
@@ -112,7 +127,6 @@ const createCard = (course, isRow) => {
                   <div class="course-card__badges">
                     <span class="badge ${levelClass[course.난이도]}">${course.난이도}</span>
                     <span class="badge">${distance(course)}</span>
-                    <span class="badge"></span>
                   </div>
                   <p class="course-card__desc">
                     산 높이 ${course.산높이}m · 상행 ${formatMinutes(course.상행소요시간)} · 하행 ${formatMinutes(course.하행소요시간)}
@@ -128,8 +142,8 @@ const createCard = (course, isRow) => {
     return `<li>
               <article class="course-card">
                 <img
-                  src="images/course-1.jpg"
-                  alt="${course.산이름} 사진"
+                  	src="${courseImg(course)}"
+                  alt=""  
                   class="course-card__image"
                 />
                 <div class="course-card__body">
