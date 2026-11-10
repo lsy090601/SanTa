@@ -7,3 +7,8 @@ node_modules/
 # 로컬 백업본(241MB)과 Claude Code 로컬 설정은 올리지 않음
 _backup_gitignore/
 .claude/
+
+# 개인 환경 설정은 제외하고 제출용 템플릿은 포함
+.env
+.env.*
+!.env.example
