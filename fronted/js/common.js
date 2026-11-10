@@ -127,6 +127,7 @@ const createCard = (course, isRow) => {
                   <div class="course-card__badges">
                     <span class="badge ${levelClass[course.난이도]}">${course.난이도}</span>
                     <span class="badge">${distance(course)}</span>
+                    <span class="badge">총 ${totalTime(course)}</span>
                   </div>
                   <p class="course-card__desc">
                     산 높이 ${course.산높이}m · 상행 ${formatMinutes(course.상행소요시간)} · 하행 ${formatMinutes(course.하행소요시간)}
